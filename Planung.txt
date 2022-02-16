@@ -1,0 +1,13 @@
+Unsere Idee: 
+	- Cookieclicker
+		- Einen Keks klicken
+		- Punkte sammeln
+		- Entitys zum klicken kaufen
+		- Daten in einer Datenbank speichern
+	- Datenbankzugriff der Software
+		- Anmeldename
+		- Passwort
+		- Punktestand
+		- Gekaufte Entitys
+		- Highscore verschiedener Nutzer
+		- Anderen Nutzern Punkte schenken?! 
