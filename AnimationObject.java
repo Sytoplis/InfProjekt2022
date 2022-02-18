@@ -1,21 +1,19 @@
 import java.awt.*;
 import javax.swing.*;
 
+import MathLib.Vector2;
+
 public class AnimationObject {
 
     private Image skin;
-    private int[] position;
-    private int[] direction;
+    private Vector2 position = new Vector2();
+    private Vector2 direction = new Vector2();
     public static AnimationObject Objinstance;
 
     public AnimationObject() {
 
-        this.direction = new int[2];
-        this.direction[0] = 0;
-        this.direction[1] = 1;
-        this.position = new int[2];
-        this.position[0] = 0;
-        this.position[1] = 1;
+        this.direction = Vector2.zero;
+        this.position = Vector2.zero;
         skin = new ImageIcon().getImage(); // default skin is going up
 
         Objinstance = this;
@@ -34,22 +32,22 @@ public class AnimationObject {
 
     }
 
-    public int[] getdirection() {
+    public Vector2 getdirection() {
 
         return this.direction;
     }
 
-    public void setdirection(int[] newdirection) {
+    public void setdirection(Vector2 newdirection) {
 
         this.direction = newdirection;
     }
 
-    public int[] getposition() {
+    public Vector2 getposition() {
 
         return this.position;
     }
 
-    public void setposition(int[] newposition) {
+    public void setposition(Vector2 newposition) {
 
         this.position = newposition;
     }
