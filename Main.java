@@ -22,6 +22,7 @@ public class Main {
                 "Objektzahl", 0, JOptionPane.QUESTION_MESSAGE, null, choices2, choices2[0]))];
 
         // loadingScreen();
+        new InitGame(frame);
 
     }
 

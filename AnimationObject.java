@@ -5,20 +5,26 @@ public class AnimationObject {
 
     private Image skin;
     private int[] position;
-    private int[] rotation;
+    private int[] direction;
     public static AnimationObject Objinstance;
 
     public AnimationObject() {
 
-        this.rotation = new int[2];
-        this.rotation[0] = 0;
-        this.rotation[1] = 1;
+        this.direction = new int[2];
+        this.direction[0] = 0;
+        this.direction[1] = 1;
         this.position = new int[2];
         this.position[0] = 0;
         this.position[1] = 1;
         skin = new ImageIcon().getImage(); // default skin is going up
 
         Objinstance = this;
+    }
+
+    public void draw(Graphics g) {
+
+        g.drawOval(50, 50, 50, 50);
+
     }
 
     public void changeskin() {
@@ -28,14 +34,14 @@ public class AnimationObject {
 
     }
 
-    public int[] getrotation() {
+    public int[] getdirection() {
 
-        return this.rotation;
+        return this.direction;
     }
 
-    public void setrotation(int[] newrotation) {
+    public void setdirection(int[] newdirection) {
 
-        this.rotation = newrotation;
+        this.direction = newdirection;
     }
 
     public int[] getposition() {
