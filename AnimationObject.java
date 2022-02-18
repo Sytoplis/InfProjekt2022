@@ -3,26 +3,19 @@ import javax.swing.*;
 
 import MathLib.Vector2;
 
-public class AnimationObject {
+public class AnimationObject extends JComponent {
 
     private Image skin;
     private Vector2 position = new Vector2();
     private Vector2 direction = new Vector2();
-    public static AnimationObject Objinstance;
 
-    public AnimationObject() {
+    public AnimationObject(Graphics g) {
 
         this.direction = Vector2.zero;
         this.position = Vector2.zero;
-        skin = new ImageIcon().getImage(); // default skin is going up
-
-        Objinstance = this;
-    }
-
-    public void draw(Graphics g) {
-
+        g.create();
         g.drawOval(50, 50, 50, 50);
-
+        skin = new ImageIcon().getImage(); // default skin is going up
     }
 
     public void changeskin() {
@@ -50,6 +43,7 @@ public class AnimationObject {
     public void setPosition(Vector2 newposition) {
 
         this.position = newposition;
+
     }
 
 }

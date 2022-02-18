@@ -1,4 +1,4 @@
-import java.awt.Toolkit;
+import java.awt.*;
 import javax.swing.*;
 
 public class AnimationSurface {
@@ -14,4 +14,5 @@ public class AnimationSurface {
         frame.setVisible(true);
 
     }
+
 }

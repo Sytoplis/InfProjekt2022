@@ -10,7 +10,6 @@ class LoadingScreen extends JComponent {
 
     public LoadingScreen() {
         try {
-            System.out.println(new File("./Inhalte/Loading.gif").getCanonicalPath());
 
             backgroundanimation = new ImageIcon("Inhalte/Loading.gif").getImage();
         } catch (Exception e) {
