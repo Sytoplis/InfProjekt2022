@@ -22,12 +22,12 @@ public class Vector2
     }
 
     public double len()
-    {
-        return Math.pow(x*x + y*y, 0.5);
+    {   
+        return Math.sqrt(x*x + y*y);
     }
 
     public double Dist(Vector2 b)
     {
-        return Math.pow((x-b.x)*(x-b.x) + (y-b.y)*(y-b.y), 0.5);
+        return Math.sqrt((x-b.x)*(x-b.x) + (y-b.y)*(y-b.y));
     }
 }
