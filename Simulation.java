@@ -1,15 +1,15 @@
 public class Simulation{
 
     public class SimOJ{
-        public AnimationObjects animOJ;
+        public AnimationObject animOJ;
 
-        public SimOJ(AnimationObjects animOJ){
-
+        public SimOJ(AnimationObject animOJ){
+            
         }
     }
 
     public Simulation(){
-        
+
     }
 
     public void step(double dt){}
