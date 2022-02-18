@@ -2,6 +2,9 @@ import MathLib.Vector2;
 
 public class Simulation{
 
+    public double width;
+    public double height;
+
     public class SimOJ{
         public AnimationObject animOJ;
 
