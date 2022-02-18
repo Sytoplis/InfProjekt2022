@@ -21,9 +21,7 @@ public class Main {
         int objectcount = (int) choices2[(JOptionPane.showOptionDialog(null, "Bitte Anzahl der Objekte auswählen!",
                 "Objektzahl", 0, JOptionPane.QUESTION_MESSAGE, null, choices2, choices2[0]))];
 
-        loadingScreen();
-
-        frame.setVisible(true);
+        // loadingScreen();
 
     }
 

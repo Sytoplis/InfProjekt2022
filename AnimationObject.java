@@ -1,14 +1,14 @@
 import java.awt.*;
 import javax.swing.*;
 
-public class AnimationObjects {
+public class AnimationObject {
 
     private Image skin;
     private int[] position;
     private int[] rotation;
-    public static AnimationObjects Objinstance;
+    public static AnimationObject Objinstance;
 
-    public AnimationObjects() {
+    public AnimationObject() {
 
         this.rotation = new int[2];
         this.rotation[0] = 0;
