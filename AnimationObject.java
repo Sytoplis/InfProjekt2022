@@ -32,22 +32,22 @@ public class AnimationObject {
 
     }
 
-    public Vector2 getdirection() {
+    public Vector2 getDirection() {
 
         return this.direction;
     }
 
-    public void setdirection(Vector2 newdirection) {
+    public void setDirection(Vector2 newdirection) {
 
         this.direction = newdirection;
     }
 
-    public Vector2 getposition() {
+    public Vector2 getPosition() {
 
         return this.position;
     }
 
-    public void setposition(Vector2 newposition) {
+    public void setPosition(Vector2 newposition) {
 
         this.position = newposition;
     }
