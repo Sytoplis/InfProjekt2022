@@ -48,7 +48,7 @@ public class Main {
         loadingframe.setVisible(true);
 
         try {
-            Thread.sleep(8000);
+            Thread.sleep(4000);
         } catch (InterruptedException e) {
             e.printStackTrace();
             loading.interrupt();
