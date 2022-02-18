@@ -14,6 +14,8 @@ public class InitGame {
         object.setForeground(Color.green);
         object.setBounds(400, 300, 50, 50);
 
+        frame.repaint();
+
         new AnimationSurface(frame);
 
     }

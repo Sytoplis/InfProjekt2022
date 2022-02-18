@@ -16,10 +16,10 @@ public class AnimationObject extends JComponent {
         skin = new ImageIcon().getImage(); // default skin is going up
     }
 
-    // @Override
+    @Override
     public void paintComponent(Graphics g) {
 
-        // g.drawOval(50, 50, 50, 50);
+        g.drawOval(50, 50, 50, 50);
     }
 
     public void changeskin() {
