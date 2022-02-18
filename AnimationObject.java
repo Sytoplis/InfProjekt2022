@@ -3,23 +3,19 @@ import javax.swing.*;
 
 import MathLib.Vector2;
 
-public class AnimationObject extends JComponent {
+public class AnimationObject {
 
     private Image skin;
     private Vector2 position = new Vector2();
     private Vector2 direction = new Vector2();
+    private Color objectColor;
 
     public AnimationObject() {
 
         this.direction = Vector2.zero;
         this.position = Vector2.zero;
+        objectColor = Color.black;
         skin = new ImageIcon().getImage(); // default skin is going up
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-
-        g.drawOval(50, 50, 50, 50);
     }
 
     public void changeskin() {
