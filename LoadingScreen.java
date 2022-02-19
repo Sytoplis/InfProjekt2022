@@ -2,7 +2,6 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import java.io.*;
 
 class LoadingScreen extends JComponent {
     private static final long serialVersionUID = 1L;
