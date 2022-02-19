@@ -6,6 +6,7 @@ import MathLib.Vector2;
 public class AnimationSurface extends JFrame {
 
     private JFrame animationFrame;
+    private Graphics g;
 
     public AnimationSurface(String simulationType) {
 
@@ -25,26 +26,6 @@ public class AnimationSurface extends JFrame {
         animationFrame.setVisible(true);
 
     }
-
-    /*
-     * @Override
-     * public void paint(Graphics g) {
-     * 
-     * JLabel labelx = new JLabel();
-     * labelx.setBounds((int) obj.getPosition().x, (int) obj.getPosition().y, 100,
-     * 50);
-     * labelx.setVisible(true);
-     * labelx.setForeground(obj.getColor());
-     * labelx.setText("Überraschung");
-     * animationFrame.add(labelx);
-     * 
-     * g = animationFrame.getGraphics();
-     * 
-     * g.setColor(obj.getColor());
-     * g.fillOval((int) obj.getPosition().x, (int) obj.getPosition().y, 50, 50);
-     * 
-     * }
-     */
 
     public void drawObject(AnimationObject obj) {
 

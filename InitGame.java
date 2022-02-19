@@ -7,11 +7,16 @@ public class InitGame {
 
     AnimationObject[] object;
     AnimationSurface surface;
+    int objectcount;
+    private Graphics g;
 
     public InitGame(String simulationType, int objectcount) {
 
+        this.objectcount = objectcount;
         createAnimationSurface(simulationType);
         createAnimationObjects(objectcount);
+
+        // paint();
 
     }
 
@@ -32,28 +37,33 @@ public class InitGame {
                     rand.nextInt((int) surface.getframeDimension().y)));
             object[i].setColor(new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));
             object[i].setDirection(new Vector2(rand.nextInt(1), rand.nextInt(1)));
-
-            surface.drawObject(object[i]);
         }
 
         while (true) {
 
             for (int i = 0; i < objectcount; i++) {
-                // if (rand.nextInt(1) == 1) {
-                object[i].setPosition(new Vector2((int) object[i].getPosition().x + 1,
-                        (int) object[i].getPosition().y + 1));
-
-                // } else {
-
-                // object[i].setPosition(new Vector2((int) object[i].getPosition().x -
-                // rand.nextInt(1),
-                // (int) object[i].getPosition().y - rand.nextInt(1)));
-                // }
-
                 surface.drawObject(object[i]);
+
             }
 
         }
     }
+
+    /*
+     * @Override
+     * public void paint() {
+     * 
+     * Graphics g = surface.getGraphics();
+     * 
+     * for (int i = 0; i < objectcount; i++) {
+     * 
+     * g.setColor(object[i].getColor());
+     * g.fillOval((int) object[i].getPosition().x, (int) object[i].getPosition().y,
+     * 50, 50);
+     * 
+     * }
+     * 
+     * }
+     */
 
 }
