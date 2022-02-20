@@ -24,7 +24,7 @@ public class AnimationSurface extends JPanel {
         frame.setLayout(null);
 
         setSize(frame.getWidth(), frame.getHeight());
-        createAnimationObjects(objectcount);//create objects
+        createAnimationObjects(objectcount);// create objects
         frame.add(this);
 
         frame.setVisible(true);
@@ -48,16 +48,21 @@ public class AnimationSurface extends JPanel {
         }
     }
 
-
     @Override
     public void paint(Graphics g) {
         super.paint(g);
 
-        for(int i = 0; i < object.length; i++){       
+        for (int i = 0; i < object.length; i++) {
             g.fillOval((int) object[i].getPosition().x, (int) object[i].getPosition().y, 25, 25);
             g.setColor(object[i].getColor());
 
-            object[i].setPosition(object[i].getPosition().add(new Vector2(1, 1).mul(0.1)));
+            // object[i].setPosition(object[i].getPosition().add(new Vector2(1,
+            // 1).mul(0.5)));
+            java.util.Random rand = new java.util.Random();
+
+            object[i].setPosition(new Vector2(rand.nextInt((int) getframeDimension().x),
+                    rand.nextInt((int) getframeDimension().y)));
+
         }
     }
 }

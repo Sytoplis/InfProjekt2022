@@ -43,7 +43,7 @@ public class Main {
         loadingframe.setVisible(true);
 
         try {
-            //Thread.sleep(6000);
+            // Thread.sleep(6000);
             Thread.sleep(1);
         } catch (InterruptedException e) {
             e.printStackTrace();
