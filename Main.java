@@ -3,6 +3,8 @@ import javax.swing.*;
 
 public class Main {
 
+    private static Thread loading;
+
     public static void main(String[] args) {
 
         Object[] choices1 = { "Boids", "Gravitation", "Natural Motion" };
@@ -17,15 +19,19 @@ public class Main {
                 "Objektzahl", 0, JOptionPane.QUESTION_MESSAGE, null, choices2,
                 choices2[0]))];
 
-        loadingScreen();
-        new InitGame(simulationtype, objectcount);
+        loading = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                loadingScreen();
+            }
+        });
+        loading.start();
+
+        new InitSimulation(simulationtype, objectcount);
 
     }
 
     public static void loadingScreen() {
-
-        Thread loading = new Thread();
-        loading.start();
 
         JFrame loadingframe = new JFrame("");
         loadingframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -43,13 +49,13 @@ public class Main {
         loadingframe.setVisible(true);
 
         try {
-            // Thread.sleep(6000);
-            Thread.sleep(1);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
             loading.interrupt();
         }
 
+        AnimationSurface.instance.startSimulation();
         loadingframe.dispose();
 
     }

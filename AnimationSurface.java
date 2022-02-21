@@ -6,28 +6,45 @@ import MathLib.Vector2;
 public class AnimationSurface extends JPanel {
 
     public JFrame frame;
+    public static AnimationSurface instance;
+    private Inputs input = new Inputs();
+    public boolean paused;
 
     AnimationObject[] object;
 
     public AnimationSurface(String simulationType, int objectcount) {
         super();
+        instance = this;
         buildFrame(simulationType, objectcount);
+
     }
 
     public void buildFrame(String simulationType, int objectcount) {
         frame = new JFrame("Simulation: " + simulationType);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
-                (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+        frame.setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 1,
+                (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 1);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setLayout(null);
+        frame.setIconImage(new ImageIcon("Inhalte/ProgramIcon.png").getImage());
+        frame.addKeyListener(input);
 
         setSize(frame.getWidth(), frame.getHeight());
         createAnimationObjects(objectcount);// create objects
         frame.add(this);
 
-        frame.setVisible(true);
+        while (!frame.isVisible()) {
+            try {
+                Thread.sleep(1);
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
+        }
+        toggleFullscreen();
+        JOptionPane.showMessageDialog(this,
+                "Mit 'ESC' kann die Simulation beendet werden \nMit 'P' kann die Simulation pausiert werden \nMit 'F11' kann der Vollbildmodus gewechselt werden",
+                "Hinweise", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public Vector2 getframeDimension() {
@@ -53,16 +70,38 @@ public class AnimationSurface extends JPanel {
         super.paint(g);
 
         for (int i = 0; i < object.length; i++) {
-            g.fillOval((int) object[i].getPosition().x, (int) object[i].getPosition().y, 25, 25);
             g.setColor(object[i].getColor());
+            g.fillOval((int) object[i].getPosition().x, (int) object[i].getPosition().y, 25, 25);
 
-            // object[i].setPosition(object[i].getPosition().add(new Vector2(1,
-            // 1).mul(0.5)));
-            java.util.Random rand = new java.util.Random();
-
-            object[i].setPosition(new Vector2(rand.nextInt((int) getframeDimension().x),
-                    rand.nextInt((int) getframeDimension().y)));
+            object[i].setPosition(object[i].getPosition().add(new Vector2(1,
+                    1).mul(0.5)));
 
         }
     }
+
+    public void startSimulation() {
+        frame.setVisible(true);
+    }
+
+    public void endSimulation() {
+        frame.dispose();
+        System.exit(0);
+    }
+
+    public void toggleFullscreen() {
+
+        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice dev = env.getDefaultScreenDevice();
+
+        if (frame.getWidth() == (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth()) {
+            dev.setFullScreenWindow(null);
+        } else {
+            dev.setFullScreenWindow(frame);
+        }
+    }
+
+    public void pauseSimulation() {
+        paused = !paused;
+    }
+
 }
