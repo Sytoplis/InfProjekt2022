@@ -66,12 +66,16 @@ public class AnimationSurface extends JPanel {
 
         }
 
-        sim = new Simulation(objects);
+        System.out.println(frame.getHeight());
+        sim = new Simulation(objects, frame.getWidth(), frame.getHeight());
     }
 
     @Override
     public void paint(Graphics g) {
+       
         super.paint(g);
+
+        sim.step(0.1);
 
         for (int i = 0; i < objects.length; i++) {
             g.setColor(objects[i].getColor());
