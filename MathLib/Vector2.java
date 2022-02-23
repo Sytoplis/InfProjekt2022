@@ -15,6 +15,9 @@ public class Vector2
     {
         return new Vector2(x + b.x, y + b.y);
     }
+    public Vector2 sub(Vector2 b){
+        return new Vector2(x - b.x, y - b.y);
+    }
 
     public Vector2 mul(double mul)
     {
@@ -44,5 +47,11 @@ public class Vector2
     public Vector2 normalized(){
         double l = len();
         return new Vector2(x / l, y / l);
+    }
+
+
+    public void ClipDiagLength(double max){
+        if(x > max) x = max;
+        if(y > max) y = max;
     }
 }
