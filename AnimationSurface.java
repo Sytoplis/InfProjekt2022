@@ -67,7 +67,7 @@ public class AnimationSurface extends JPanel {
         }
 
         System.out.println(frame.getHeight());
-        sim = new Simulation(objects, frame.getWidth(), frame.getHeight());
+        sim = new BoidSim(objects, frame.getWidth(), frame.getHeight());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class AnimationSurface extends JPanel {
        
         super.paint(g);
 
-        sim.step(0.1);
+        sim.step(1);
 
         for (int i = 0; i < objects.length; i++) {
             g.setColor(objects[i].getColor());

@@ -19,8 +19,11 @@ public class Simulation{
 
         public SimOJ(AnimationObject animOJ){
             this.animOJ = animOJ;
+
+            double speed = 25;
+
             setPos(new Vector2(MathLib.rnd(width), MathLib.rnd(height)));//set boid to random position on screen
-            setDir(new Vector2(MathLib.rnd(-1, 1), MathLib.rnd(-1, 1)).normalized());//give boid a random direction
+            setVel(new Vector2(MathLib.rnd(-1, 1), MathLib.rnd(-1, 1)).normalized().mul(speed));//give boid a random direction
         }
 
 
