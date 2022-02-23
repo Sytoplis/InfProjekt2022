@@ -9,8 +9,9 @@ public class AnimationSurface extends JPanel {
     public static AnimationSurface instance;
     private Inputs input = new Inputs();
     public boolean paused;
+    private Simulation sim;
 
-    AnimationObject[] object;
+    AnimationObject[] objects;
 
     public AnimationSurface(String simulationType, int objectcount) {
         super();
@@ -54,26 +55,29 @@ public class AnimationSurface extends JPanel {
     public void createAnimationObjects(int objectcount) {
 
         java.util.Random rand = new java.util.Random();
-        object = new AnimationObject[objectcount];
+        objects = new AnimationObject[objectcount];
 
         for (int i = 0; i < objectcount; i++) {
-            object[i] = new AnimationObject();
-            object[i].setPosition(new Vector2(rand.nextInt((int) getframeDimension().x),
+            objects[i] = new AnimationObject();
+            objects[i].setPosition(new Vector2(rand.nextInt((int) getframeDimension().x),
                     rand.nextInt((int) getframeDimension().y)));
-            object[i].setColor(new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));
-            object[i].setDirection(new Vector2(rand.nextInt(1), rand.nextInt(1)));
+            objects[i].setColor(new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));
+            objects[i].setDirection(new Vector2(rand.nextInt(1), rand.nextInt(1)));
+
         }
+
+        sim = new Simulation(objects);
     }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
 
-        for (int i = 0; i < object.length; i++) {
-            g.setColor(object[i].getColor());
-            g.fillOval((int) object[i].getPosition().x, (int) object[i].getPosition().y, 25, 25);
+        for (int i = 0; i < objects.length; i++) {
+            g.setColor(objects[i].getColor());
+            g.fillOval((int) objects[i].getPosition().x, (int) objects[i].getPosition().y, 25, 25);
 
-            object[i].setPosition(object[i].getPosition().add(new Vector2(1,
+            objects[i].setPosition(objects[i].getPosition().add(new Vector2(1,
                     1).mul(0.5)));
 
         }
