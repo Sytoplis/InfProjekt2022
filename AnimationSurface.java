@@ -47,6 +47,7 @@ public class AnimationSurface extends JPanel {
             }
         }
         toggleFullscreen();
+        frame.toFront();
         JOptionPane.showMessageDialog(this,
                 "Mit 'ESC' kann die Simulation beendet werden \nMit 'P' kann die Simulation pausiert werden \nMit 'F11' kann der Vollbildmodus gewechselt werden",
                 "Hinweise", JOptionPane.INFORMATION_MESSAGE);
@@ -74,17 +75,14 @@ public class AnimationSurface extends JPanel {
 
         if(objectcount >= 100){
             	boidSize = 20;
-                deltaTime = 10;
         }if(objectcount < 100){
             boidSize = 25;
-            deltaTime = 8;
         }if(objectcount <= 50){
             boidSize = 30;
-            deltaTime = 5;
         }if(objectcount < 10){
             boidSize = 35;
-            deltaTime = 2;
         }
+        deltaTime = (int)objectcount/10;
 
         sim = new BoidSim(objects, frame.getWidth(), frame.getHeight());
     }
@@ -97,7 +95,7 @@ public class AnimationSurface extends JPanel {
         g.setColor(new Color(201, 234, 255));
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        sim.step(0.05*deltaTime/1000);
+        sim.step(0.1*deltaTime/1000);
         for (int i = 0; i < objects.length; i++) {
             g.setColor(objects[i].getColor());
             g.fillOval((int) objects[i].getPosition().x, (int) objects[i].getPosition().y, boidSize, boidSize);
