@@ -16,6 +16,7 @@ public class BoidSim extends Simulation{
             keepWithinBounds(dt);
             ForceToAvrg(dt, cohesionRad, cohesionStrength);//cohesion force
             ForceToAvrg(dt, seperationRad, seperationStrength);//seperation force
+            //TODO: alignment
             super.step(dt);
         }
 
