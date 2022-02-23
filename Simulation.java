@@ -41,7 +41,9 @@ public class Simulation{
 
     public SimOJ createSimOJ(AnimationObject animOJ){ return new SimOJ(animOJ); }
 
+    //CONSTRUCTOR
     public Simulation(AnimationObject[] initAnim){
+        simOJs = new SimOJ[initAnim.length];
         for(int i = 0; i < initAnim.length; i++){//loads all animation objects into the simulation
             simOJs[i] = createSimOJ(initAnim[i]);
         }
