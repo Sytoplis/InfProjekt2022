@@ -77,9 +77,6 @@ public class AnimationSurface extends JPanel {
             g.setColor(objects[i].getColor());
             g.fillOval((int) objects[i].getPosition().x, (int) objects[i].getPosition().y, 25, 25);
 
-            objects[i].setPosition(objects[i].getPosition().add(new Vector2(1,
-                    1).mul(0.5)));
-
         }
     }
 
