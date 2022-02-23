@@ -1,11 +1,12 @@
 import MathLib.Vector2;
 import MathLib.MathLib;
-import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class Simulation{
 
     public double width;
     public double height;
+    public double maxSpeed = 100;
 
     public class SimOJ{
 
@@ -37,6 +38,7 @@ public class Simulation{
         }
 
         public void step(double dt){//step this boid one timestep forward
+            vel.ClipDiagLength(maxSpeed);
             setPos(getPos().add(vel.mul(dt)));//new pos = old pos + vel * dt
         }
     }
@@ -60,14 +62,6 @@ public class Simulation{
     public void step(double dt){//dt in seconds
         for(int i = 0; i < simOJs.length; i++){
             simOJs[i].step(dt);
-        }
-    }
-
-    //does the operation "op" on all simOJs in this circle; complexity O(n) 
-    public void overlapCircleCall(Vector2 pos, double rad, Consumer<SimOJ> op){
-        for(int i = 0; i < simOJs.length; i++){
-            if(simOJs[i].getPos().sqrDist(pos) <= rad*rad)
-                op.accept(simOJs[i]);
         }
     }
 }
