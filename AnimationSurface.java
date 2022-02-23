@@ -5,12 +5,13 @@ import MathLib.Vector2;
 
 public class AnimationSurface extends JPanel {
 
-    public JFrame frame;
+    private JFrame frame;
     public static AnimationSurface instance;
     private Inputs input = new Inputs();
-    public boolean paused;
+    private boolean paused;
     private Simulation sim;
-    public long deltaTime = 20;
+    private long deltaTime;
+    private int boidSize;
 
 
 
@@ -71,6 +72,20 @@ public class AnimationSurface extends JPanel {
 
         }
 
+        if(objectcount >= 100){
+            	boidSize = 20;
+                deltaTime = 10;
+        }if(objectcount < 100){
+            boidSize = 25;
+            deltaTime = 8;
+        }if(objectcount <= 50){
+            boidSize = 30;
+            deltaTime = 5;
+        }if(objectcount < 10){
+            boidSize = 35;
+            deltaTime = 2;
+        }
+
         sim = new BoidSim(objects, frame.getWidth(), frame.getHeight());
     }
 
@@ -79,11 +94,13 @@ public class AnimationSurface extends JPanel {
        
         super.paint(g);
 
-        sim.step(1);
+        g.setColor(new Color(201, 234, 255));
+        g.fillRect(0, 0, getWidth(), getHeight());
 
+        sim.step(0.05*deltaTime/1000);
         for (int i = 0; i < objects.length; i++) {
             g.setColor(objects[i].getColor());
-            g.fillOval((int) objects[i].getPosition().x, (int) objects[i].getPosition().y, 25, 25);
+            g.fillOval((int) objects[i].getPosition().x, (int) objects[i].getPosition().y, boidSize, boidSize);
 
         }
     }
