@@ -10,6 +10,9 @@ public class AnimationSurface extends JPanel {
     private Inputs input = new Inputs();
     public boolean paused;
     private Simulation sim;
+    public long deltaTime = 20;
+
+
 
     AnimationObject[] objects;
 
@@ -46,6 +49,8 @@ public class AnimationSurface extends JPanel {
         JOptionPane.showMessageDialog(this,
                 "Mit 'ESC' kann die Simulation beendet werden \nMit 'P' kann die Simulation pausiert werden \nMit 'F11' kann der Vollbildmodus gewechselt werden",
                 "Hinweise", JOptionPane.INFORMATION_MESSAGE);
+
+            runSimulation();
     }
 
     public Vector2 getframeDimension() {
@@ -66,7 +71,6 @@ public class AnimationSurface extends JPanel {
 
         }
 
-        System.out.println(frame.getHeight());
         sim = new BoidSim(objects, frame.getWidth(), frame.getHeight());
     }
 
@@ -80,6 +84,27 @@ public class AnimationSurface extends JPanel {
         for (int i = 0; i < objects.length; i++) {
             g.setColor(objects[i].getColor());
             g.fillOval((int) objects[i].getPosition().x, (int) objects[i].getPosition().y, 25, 25);
+
+        }
+    }
+
+    public void runSimulation(){
+
+        while (true) {
+            if (!paused) {
+                frame.repaint();
+                try {
+                    Thread.sleep(deltaTime);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
         }
     }

@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
 
         Object[] choices1 = { "Boids", "Gravitation", "Natural Motion" };
-        String simulationtype = (String) choices1[(JOptionPane.showOptionDialog(null,
+        String simulationType = (String) choices1[(JOptionPane.showOptionDialog(null,
                 "Bitte Art der Simulation auswählen!",
                 "Simulation", 0, JOptionPane.QUESTION_MESSAGE, null, choices1,
                 choices1[0]))];
@@ -27,7 +27,7 @@ public class Main {
         });
         loading.start();
 
-        new InitSimulation(simulationtype, objectcount);
+        new AnimationSurface(simulationType, objectcount);
 
     }
 
@@ -49,7 +49,7 @@ public class Main {
         loadingframe.setVisible(true);
 
         try {
-            Thread.sleep(5000);
+            Thread.sleep(48);
         } catch (InterruptedException e) {
             e.printStackTrace();
             loading.interrupt();
