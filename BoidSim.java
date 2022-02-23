@@ -26,7 +26,7 @@ public class BoidSim extends Simulation{
     }
 
     @Override public Simulation.SimOJ createSimOJ(AnimationObject animOJ) { return new Boid(animOJ); }//use boid as the standard simoj
-    public BoidSim(AnimationObject[] initAnim){
-        super(initAnim);
+    public BoidSim(AnimationObject[] initAnim, double width, double height){
+        super(initAnim, width, height);
     }
 }
