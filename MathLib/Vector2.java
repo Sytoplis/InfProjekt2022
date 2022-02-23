@@ -30,6 +30,10 @@ public class Vector2
     {
         return Math.sqrt((x-b.x)*(x-b.x) + (y-b.y)*(y-b.y));
     }
+    public double sqrDist(Vector2 b)
+    {
+        return (x-b.x)*(x-b.x) + (y-b.y)*(y-b.y);
+    }
 
     
     public void normalize(){

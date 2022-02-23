@@ -1,5 +1,6 @@
 import MathLib.Vector2;
 import MathLib.MathLib;
+import java.util.function.Consumer;
 
 public class Simulation{
 
@@ -56,9 +57,17 @@ public class Simulation{
     }
 
 
-    public void step(double dt){
+    public void step(double dt){//dt in seconds
         for(int i = 0; i < simOJs.length; i++){
             simOJs[i].step(dt);
+        }
+    }
+
+    //does the operation "op" on all simOJs in this circle; complexity O(n) 
+    public void overlapCircleCall(Vector2 pos, double rad, Consumer<SimOJ> op){
+        for(int i = 0; i < simOJs.length; i++){
+            if(simOJs[i].getPos().sqrDist(pos) <= rad*rad)
+                op.accept(simOJs[i]);
         }
     }
 }

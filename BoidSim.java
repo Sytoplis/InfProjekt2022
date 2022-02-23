@@ -2,6 +2,8 @@ import MathLib.Vector2;
 
 public class BoidSim extends Simulation{
 
+    private double cohesionRad;
+
     public class Boid extends SimOJ{
         public Boid(AnimationObject animOJ){
             super(animOJ);
@@ -14,7 +16,7 @@ public class BoidSim extends Simulation{
 
         private void keepWithinBounds(double dt){
             final double margin = 200;
-            final double turnFactor = 1;
+            final double turnFactor = 1 * dt;
 
             Vector2 v = getVel();
             if(getPos().x < margin)         v.x += turnFactor;
@@ -22,6 +24,10 @@ public class BoidSim extends Simulation{
             if(getPos().y < margin)         v.y += turnFactor;
             if(getPos().y > height - margin)v.y -= turnFactor;
             setVel(v);
+        }
+
+        private void Cohesion(){//make boids steer to avrg of surrounding boids
+            
         }
     }
 
