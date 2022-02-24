@@ -95,7 +95,9 @@ public class AnimationSurface extends JPanel {
         g.setColor(new Color(201, 234, 255));
         g.fillRect(0, 0, getWidth(), getHeight());
 
-        sim.step(0.1*deltaTime/1000);
+        //sim.step(0.1*deltaTime/1000);
+        sim.step(1);
+
         for (int i = 0; i < objects.length; i++) {
             g.setColor(objects[i].getColor());
             g.fillOval((int) objects[i].getPosition().x, (int) objects[i].getPosition().y, boidSize, boidSize);
