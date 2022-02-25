@@ -1,9 +1,15 @@
-import java.awt.Toolkit;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
+import java.util.*;
+import javax.swing.JButton;
 
 public class Main {
 
     private static Thread loading;
+    private static int objectcount = 0;
 
     public static void main(String[] args) {
 
@@ -13,11 +19,16 @@ public class Main {
                 "Simulation", 0, JOptionPane.QUESTION_MESSAGE, null, choices1,
                 choices1[0]))];
 
-        Object[] choices2 = { 1, 2, 5, 10, 20, 50, 100 };
-        int objectcount = (int) choices2[(JOptionPane.showOptionDialog(null,
-                "Bitte Anzahl der Objekte auswählen!",
-                "Objektzahl", 0, JOptionPane.QUESTION_MESSAGE, null, choices2,
-                choices2[0]))];
+        JFrame temp = new JFrame();
+        getobjectcount(temp);
+        while (objectcount == 0) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                loading.interrupt();
+            }
+        }
 
         loading = new Thread(new Runnable() {
             @Override
@@ -26,8 +37,15 @@ public class Main {
             }
         });
         loading.start();
-
         new AnimationSurface(simulationType, objectcount);
+
+        try {
+            Thread.sleep(4000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            loading.interrupt();
+        }
+        temp.dispose();
 
     }
 
@@ -49,7 +67,7 @@ public class Main {
         loadingframe.setVisible(true);
 
         try {
-            Thread.sleep(48);
+            Thread.sleep(4800);
         } catch (InterruptedException e) {
             e.printStackTrace();
             loading.interrupt();
@@ -59,4 +77,80 @@ public class Main {
         loadingframe.dispose();
 
     }
+
+    public static void getobjectcount(JFrame temp) {
+
+        JDialog chooseobjectcount = new JDialog(temp, "Objektzahl");
+        chooseobjectcount.setBounds((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2 - 200,
+                (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2 - 150, 400, 300);
+        chooseobjectcount.setMinimumSize(chooseobjectcount.getSize());
+        chooseobjectcount.setMaximumSize(chooseobjectcount.getSize());
+        chooseobjectcount.setLayout(null);
+        chooseobjectcount.setResizable(false);
+        chooseobjectcount.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+        JLabel description = new JLabel();
+        description.setText("Bitte Anzahl der Objekte eingeben!");
+        description.setBounds(chooseobjectcount.getWidth() / 2 - 100, 20, 200, 20);
+        description.setForeground(Color.black);
+        description.setBackground(Color.gray);
+        description.setVisible(true);
+        chooseobjectcount.add(description);
+
+        JLabel descriptionextrange = new JLabel();
+        descriptionextrange.setText("Alternativ einen neuen Bereich festelegen:");
+        descriptionextrange.setBounds(chooseobjectcount.getWidth() / 2 - 120, chooseobjectcount.getHeight() / 2 - 50,
+                240, 20);
+        descriptionextrange.setForeground(Color.black);
+        descriptionextrange.setBackground(Color.gray);
+        descriptionextrange.setVisible(true);
+        chooseobjectcount.add(descriptionextrange);
+
+        JSlider movecount = new JSlider(JSlider.HORIZONTAL, 0, 1000, 100);
+        movecount.setMajorTickSpacing(200);
+        movecount.setMinorTickSpacing(10);
+        movecount.setBounds(30, chooseobjectcount.getHeight() / 2 - 100, chooseobjectcount.getWidth() - 70, 50);
+        movecount.setPaintTicks(true);
+        movecount.setPaintLabels(true);
+        chooseobjectcount.add(movecount);
+
+        JTextField rangeinput = new JTextField();
+        rangeinput.setBounds(chooseobjectcount.getWidth() / 2 - 100, chooseobjectcount.getHeight() / 2, 200, 20);
+        rangeinput.setVisible(true);
+        rangeinput.setToolTipText(
+                "Hier eine Zahl von 1 bis 100000 (Einhundertausend) eingeben. \n Zum Bestätigen Enter drücken!");
+        rangeinput.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                try {
+                    String sze = rangeinput.getText();
+                    movecount.setMaximum(Integer.valueOf(sze));
+                    movecount.setMajorTickSpacing(Integer.valueOf(sze) / (Integer.valueOf(sze) / 3));
+                    movecount.setMinorTickSpacing(Integer.valueOf(sze) / 100);
+                    movecount.setPaintTicks(false);
+                    movecount.setPaintLabels(false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        chooseobjectcount.add(rangeinput);
+
+        JButton select = new JButton("Bestätigen");
+        select.setBounds(chooseobjectcount.getWidth() / 2 - 50, chooseobjectcount.getHeight() - 100, 100, 50);
+        select.setBackground(Color.gray);
+        select.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                objectcount = movecount.getValue();
+                chooseobjectcount.dispose();
+            }
+        });
+        select.setVisible(true);
+        chooseobjectcount.add(select);
+
+        chooseobjectcount.setVisible(true);
+
+    }
+
 }

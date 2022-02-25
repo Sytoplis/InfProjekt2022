@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.util.Hashtable;
+
 import javax.swing.*;
 
 import MathLib.Vector2;
@@ -12,15 +14,14 @@ public class AnimationSurface extends JPanel {
     private Simulation sim;
     private long deltaTime;
     private int boidSize;
-
-
+    private JSlider animationspeed;
 
     AnimationObject[] objects;
 
     public AnimationSurface(String simulationType, int objectcount) {
         super();
         instance = this;
-        buildFrame(simulationType, objectcount*100);
+        buildFrame(simulationType, objectcount);
 
     }
 
@@ -31,13 +32,30 @@ public class AnimationSurface extends JPanel {
                 (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 1);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
+        frame.setUndecorated(true);
         frame.setLayout(null);
         frame.setIconImage(new ImageIcon("Inhalte/ProgramIcon.png").getImage());
         frame.addKeyListener(input);
 
         setSize(frame.getWidth(), frame.getHeight());
+        setLayout(null);
         createAnimationObjects(objectcount);// create objects
         frame.add(this);
+
+        animationspeed = new JSlider(JSlider.VERTICAL, 1, 1000, 100);
+        animationspeed.setMajorTickSpacing(100);
+        animationspeed.setMinorTickSpacing(20);
+        animationspeed.setBounds(20, frame.getHeight() / 2 - 100, 40, 200);
+
+        Hashtable labelTable = new Hashtable();
+        labelTable.put(new Integer(100), new JLabel("1x"));
+        labelTable.put(new Integer(1), new JLabel("0.1x"));
+        labelTable.put(new Integer(animationspeed.getMaximum()), new JLabel("10x"));
+        animationspeed.setLabelTable(labelTable);
+        animationspeed.setPaintLabels(true);
+        animationspeed.setPaintTicks(true);
+        animationspeed.setFocusable(false);
+        add(animationspeed);
 
         while (!frame.isVisible()) {
             try {
@@ -49,10 +67,10 @@ public class AnimationSurface extends JPanel {
         toggleFullscreen();
         frame.toFront();
         JOptionPane.showMessageDialog(this,
-                "Mit 'ESC' kann die Simulation beendet werden \nMit 'P' kann die Simulation pausiert werden \nMit 'F11' kann der Vollbildmodus gewechselt werden",
+                "Mit 'ESC' kann die Simulation beendet werden \nMit 'P' kann die Simulation pausiert werden \nMit 'F11' kann der Vollbildmodus gewechselt werden \nMit dem Slider kann die Geschwindigkeit angepasst werden.",
                 "Hinweise", JOptionPane.INFORMATION_MESSAGE);
 
-            runSimulation();
+        runSimulation();
     }
 
     public Vector2 getframeDimension() {
@@ -73,16 +91,27 @@ public class AnimationSurface extends JPanel {
 
         }
 
-        if(objectcount >= 100){
-            	boidSize = 20;
-        }if(objectcount < 100){
+        if (objectcount <= 100000) {
+            boidSize = 1;
+        }
+        if (objectcount <= 10000) {
+            boidSize = 5;
+        }
+        if (objectcount <= 1000) {
+            boidSize = 10;
+        }
+        if (objectcount <= 100) {
+            boidSize = 20;
+        }
+        if (objectcount <= 100) {
             boidSize = 25;
-        }if(objectcount <= 50){
+        }
+        if (objectcount <= 50) {
             boidSize = 30;
-        }if(objectcount < 10){
+        }
+        if (objectcount < 10) {
             boidSize = 35;
         }
-        //deltaTime = (int)objectcount/10;
         deltaTime = 10;
 
         sim = new BoidSim(objects, frame.getWidth(), frame.getHeight());
@@ -90,13 +119,13 @@ public class AnimationSurface extends JPanel {
 
     @Override
     public void paint(Graphics g) {
-       
+
         super.paint(g);
 
         g.setColor(new Color(201, 234, 255));
-        g.fillRect(0, 0, getWidth(), getHeight());
+        // g.fillRect(0, 0, getWidth(), getHeight());
 
-        //sim.step(0.1*deltaTime/1000);
+        // sim.step(0.1*deltaTime/1000);
         sim.step(1);
 
         for (int i = 0; i < objects.length; i++) {
@@ -106,10 +135,11 @@ public class AnimationSurface extends JPanel {
         }
     }
 
-    public void runSimulation(){
+    public void runSimulation() {
 
         while (true) {
             if (!paused) {
+                deltaTime = 1 / animationspeed.getValue();
                 frame.repaint();
                 try {
                     Thread.sleep(deltaTime);
