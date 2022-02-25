@@ -20,7 +20,7 @@ public class AnimationSurface extends JPanel {
     public AnimationSurface(String simulationType, int objectcount) {
         super();
         instance = this;
-        buildFrame(simulationType, objectcount);
+        buildFrame(simulationType, objectcount*100);
 
     }
 
@@ -82,7 +82,8 @@ public class AnimationSurface extends JPanel {
         }if(objectcount < 10){
             boidSize = 35;
         }
-        deltaTime = (int)objectcount/10;
+        //deltaTime = (int)objectcount/10;
+        deltaTime = 10;
 
         sim = new BoidSim(objects, frame.getWidth(), frame.getHeight());
     }

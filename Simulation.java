@@ -7,6 +7,10 @@ public class Simulation{
     public double height;
     public double maxSpeed = 15;
 
+    public Grid grid;
+    public Vector2 gridCellSize;
+    private Vector2 invCellSize;
+
     public class SimOJ{
 
         //---------------------- ANIMATION INTERFACE ---------------------------------
@@ -43,6 +47,12 @@ public class Simulation{
             vel.ClipDiagLength(maxSpeed);
             setPos(getPos().add(vel.mul(dt)));//new pos = old pos + vel * dt
         }
+
+        //--------------------- SPACIAL HASHING --------------------------------------------
+        int gridID = 0;
+        public void RecomputeGridID(){ gridID = (int)(getPos().x*invCellSize.x) + (int)(getPos().y*invCellSize.y*grid.getWidth()); }//  pos / cellsize = gridPos;    posX + posY * width = index
+        public int getGridX() { return gridID % grid.getWidth(); }
+        
     }
 
     public SimOJ[] simOJs;
@@ -58,6 +68,11 @@ public class Simulation{
         for(int i = 0; i < initAnim.length; i++){//loads all animation objects into the simulation
             simOJs[i] = createSimOJ(initAnim[i], i);
         }
+
+        grid = new Grid(10, 10, simOJs);
+        gridCellSize = new Vector2(width / grid.getWidth(), height / grid.getHeight());
+        invCellSize = new Vector2(1 / gridCellSize.x, 1 / gridCellSize.y);
+        grid.UpdateGrid(simOJs);
     }
 
 
@@ -68,5 +83,6 @@ public class Simulation{
         for(int i = 0; i < simOJs.length; i++){
             simOJs[i].applyStep(dt);
         }
+        //grid.UpdateGrid(simOJs);
     }
 }

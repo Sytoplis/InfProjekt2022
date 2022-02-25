@@ -6,24 +6,26 @@ public class BoidSim extends Simulation{
     private final double margin = 100;
     private final double turnFactor = 5;
 
-    private final double cohesionRad = 150;
+    private final double visualRad = 150;//used for cohesion and alignment
     private final double cohesionStrength = 0.005;
     private final double seperationRad = 20;//usually smaller than cohesion rad
     private final double seperationStrength = 0.05;//usually greater than cohesion strength
-    private final double alignmentRad = cohesionRad;
     private final double alignmentStrength = 0.01;
 
     public class Boid extends SimOJ{
         public Boid(AnimationObject animOJ, int id){
             super(animOJ, id, 5);//initSpeed 5
-            setPos(new Vector2(MathLib.rnd(width-margin), MathLib.rnd(height-margin)));//update position to not spawn in the border
+            setPos(new Vector2(MathLib.rnd(margin, width-margin), MathLib.rnd(margin, height-margin)));//update position to not spawn in the border
         }
         
         @Override public void step(double dt){
             keepWithinBounds(dt);
-            ForceToAvrgPos(dt, cohesionRad, cohesionStrength);//cohesion force
-            ForceToAvrgPos(dt, seperationRad, -seperationStrength);//seperation force (negative -> repulsion)
-            AvrgVel(dt, alignmentRad, alignmentStrength);//alignment force
+            //ForceToAvrgPos(dt, visualRad, cohesionStrength);//cohesion force
+            //ForceToAvrgPos(dt, seperationRad, -seperationStrength);//seperation force (negative -> repulsion)
+            //AvrgVel(dt, visualRad, alignmentStrength);//alignment force
+
+            CompForces(dt);
+
             super.step(dt);
         }
 
@@ -36,7 +38,9 @@ public class BoidSim extends Simulation{
             setVel(v);
         }
 
-        //make boids steer to avrg of surrounding boids     (runs for all boids in O(n²))
+        //---------------------------------THE SLOW, BUT EASY TO UNDERSTAND ALGORITHM (runs for all boids in O(n²) [always])
+        /*
+        //make boids steer to avrg of surrounding boids     
         private void ForceToAvrgPos(double dt, double rad, double strength){
             Vector2 pos = getPos();
 
@@ -77,6 +81,56 @@ public class BoidSim extends Simulation{
             avrgVel = avrgVel.mul(dt*strength);//scale avrgPos to become a force
 
             setVel(getVel().add(avrgVel));
+        }*/
+    
+        //---------------------------------THE FAST AND COMPLICATED ALGORITHM (runs for all boids    worst case: O(n²), avrg case: O(n))
+        private void CompForces(double dt){
+            double sqrDist = 0;//allocate memory for sqr distance for faster usage
+            Vector2 pos = getPos();
+
+            Vector2 avrgCohPos = Vector2.zero;
+            Vector2 avrgSepPos = Vector2.zero;
+            Vector2 avrgVel = Vector2.zero;
+            int visCount = 0;
+            int sepCount = 0;
+            for(int i = 0; i < simOJs.length; i++){//the O(n²) approach
+
+            //for(int c = gridID - 1 - grid.getWidth(); c < gridID + 1 + grid.getWidth(); c+= grid.getWidth())//y-axis
+                //for(; getGridX() < 1; c++){//x-axis
+                    //for(int i = grid.getCellStart(c); i < grid.getCellEnd(c); i++){//iterate through all boids in those cells
+                    
+                        if(i == id) continue;//skip self
+
+                        sqrDist = simOJs[i].getPos().sqrDist(pos);
+                        if(sqrDist < visualRad*visualRad){//if boid is visible
+                            avrgCohPos = avrgCohPos.add(simOJs[i].getPos());
+                            avrgVel = avrgVel.add(simOJs[i].getVel());
+                            visCount++;
+
+                            if(sqrDist < seperationRad*seperationRad){
+                                avrgSepPos = avrgSepPos.add(simOJs[i].getPos());
+                                sepCount++;
+                            }
+                        }
+                    }
+                //}
+
+            if(visCount != 0){
+                avrgCohPos = avrgCohPos.mul(1.0/visCount);//divide sum by count to get avrg
+                avrgCohPos = avrgCohPos.sub(pos);//make avrage position relative to current boid position
+                avrgCohPos = avrgCohPos.mul(dt*cohesionStrength);//scale avrgPos to become a force
+
+                avrgVel = avrgVel.mul(1.0/visCount);//divide sum by count to get avrg
+                avrgVel = avrgVel.mul(dt*alignmentStrength);//scale avrgPos to become a force
+            }
+
+            if(sepCount != 0){
+                avrgSepPos = avrgSepPos.mul(1.0/sepCount);//divide sum by count to get avrg
+                avrgSepPos = avrgSepPos.sub(pos);//make avrage position relative to current boid position
+                avrgSepPos = avrgSepPos.mul(dt*seperationStrength);//scale avrgPos to become a force
+            }
+
+            setVel(getVel().add(avrgCohPos).add(avrgSepPos).add(avrgVel));
         }
     }
 
