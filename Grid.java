@@ -4,7 +4,7 @@ public class Grid {
     private int width;  public int getWidth()  {return width; }
     private int height; public int getHeight() {return height;}
 
-    private int cellCount;
+    private int cellCount;  public int getCellCount() {return cellCount;}
 
     private int[] cellLength;
     private int[] cellStart;    public int getCellStart(int c) {return cellStart[c];}
@@ -15,7 +15,7 @@ public class Grid {
     public Grid(int width, int height, Simulation.SimOJ[] ojs){
         this.width = width;
         this.height = height;
-        cellCount = width * height + 1;//TODO: correct this quickfix
+        cellCount = width * height;
 
         cellStart = new int[cellCount];
         cellEnd = new int[cellCount];
@@ -65,4 +65,4 @@ public class Grid {
         };
     }*/
     
-}//NOTE: programmed ~11:30 - 13:00; 13:40 - x
+}//NOTE: programmed ~11:30 - 13:00; 14.50 - x

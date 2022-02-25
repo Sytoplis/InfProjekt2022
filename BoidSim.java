@@ -14,8 +14,8 @@ public class BoidSim extends Simulation{
 
     public class Boid extends SimOJ{
         public Boid(AnimationObject animOJ, int id){
-            super(animOJ, id, 5);//initSpeed 5
-            setPos(new Vector2(MathLib.rnd(margin, width-margin), MathLib.rnd(margin, height-margin)));//update position to not spawn in the border
+            super(animOJ, id, 0);//initSpeed 5
+            setPos(new Vector2(MathLib.rnd(margin, size.x-margin), MathLib.rnd(margin, size.y-margin)));//update position to not spawn in the border
         }
         
         @Override public void step(double dt){
@@ -32,9 +32,9 @@ public class BoidSim extends Simulation{
         private void keepWithinBounds(double dt){
             Vector2 v = getVel();
             if(getPos().x < margin)         v.x += turnFactor * dt;
-            if(getPos().x > width - margin) v.x -= turnFactor * dt;
+            if(getPos().x > size.x - margin) v.x -= turnFactor * dt;
             if(getPos().y < margin)         v.y += turnFactor * dt;
-            if(getPos().y > height - margin)v.y -= turnFactor * dt;
+            if(getPos().y > size.y - margin)v.y -= turnFactor * dt;
             setVel(v);
         }
 
@@ -93,11 +93,12 @@ public class BoidSim extends Simulation{
             Vector2 avrgVel = Vector2.zero;
             int visCount = 0;
             int sepCount = 0;
-            for(int i = 0; i < simOJs.length; i++){//the O(n²) approach
+            //for(int i = 0; i < simOJs.length; i++){//the O(n²) approach
+            for(int c = gridID - 1 - grid.getWidth(); c < gridID + 1 + grid.getWidth(); c+= grid.getWidth())//y-axis
+                for(int x = -1; x < 1; x++){ c++;//x-axis
+                    if(c < 0 || c >= grid.getCellCount()) continue;//skip out of bounds
 
-            //for(int c = gridID - 1 - grid.getWidth(); c < gridID + 1 + grid.getWidth(); c+= grid.getWidth())//y-axis
-                //for(; getGridX() < 1; c++){//x-axis
-                    //for(int i = grid.getCellStart(c); i < grid.getCellEnd(c); i++){//iterate through all boids in those cells
+                    for(int i = grid.getCellStart(c); i < grid.getCellEnd(c); i++){//iterate through all boids in those cells
                     
                         if(i == id) continue;//skip self
 
@@ -113,7 +114,7 @@ public class BoidSim extends Simulation{
                             }
                         }
                     }
-                //}
+                }
 
             if(visCount != 0){
                 avrgCohPos = avrgCohPos.mul(1.0/visCount);//divide sum by count to get avrg
@@ -127,7 +128,7 @@ public class BoidSim extends Simulation{
             if(sepCount != 0){
                 avrgSepPos = avrgSepPos.mul(1.0/sepCount);//divide sum by count to get avrg
                 avrgSepPos = avrgSepPos.sub(pos);//make avrage position relative to current boid position
-                avrgSepPos = avrgSepPos.mul(dt*seperationStrength);//scale avrgPos to become a force
+                avrgSepPos = avrgSepPos.mul(dt*-seperationStrength);//scale avrgPos to become a force
             }
 
             setVel(getVel().add(avrgCohPos).add(avrgSepPos).add(avrgVel));

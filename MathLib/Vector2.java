@@ -55,6 +55,13 @@ public class Vector2
         if(y > max) y = max;
     }
 
+    public Vector2 clamp(double min, double max){
+        return new Vector2(MathLib.clamp(min, max, x), MathLib.clamp(min, max, y));
+    }
+    public Vector2 clamp(Vector2 min, Vector2 max){
+        return new Vector2(MathLib.clamp(min.x, max.x, x), MathLib.clamp(min.y, max.y, y));
+    }
+
 
     @Override
     public String toString(){
