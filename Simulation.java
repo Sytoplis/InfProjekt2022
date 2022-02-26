@@ -1,7 +1,11 @@
 import MathLib.Vector2;
+
 import MathLib.MathLib;
 
 public class Simulation{
+
+    public String test = "";
+    public SimOJ[] simOJs;
 
     public Vector2 size;
 
@@ -15,9 +19,8 @@ public class Simulation{
     public Vector2 gridCellSize;
     private Vector2 invCellSize;
 
-    private Thread[] threads;
-    private int threadOJCount;
-    private double last_dt;
+    private int threadCount;
+    private int threadOJs;
 
     public class SimOJ{
 
@@ -60,8 +63,6 @@ public class Simulation{
         
     }
 
-    public SimOJ[] simOJs;
-
     public SimOJ createSimOJ(AnimationObject animOJ, int id){ return new SimOJ(animOJ, id, 5); }
 
     //CONSTRUCTOR
@@ -83,12 +84,24 @@ public class Simulation{
         grid.UpdateGrid(simOJs);
 
 
-        //THREADS:
-        threadOJCount = simOJs.length / threadCount;
-        threads = new Thread[threadCount];
+        this.threadCount = threadCount;
+        threadOJs = simOJs.length / threadCount;
+    }
+
+    /*
+    public void step(double dt){//the step method without threading
+        stepPartial(dt, 0, simOjs.length);
+        grid.UpdateGrud(simOjs);
+    }
+    */
+    
+    public void step(double dt){//dt in seconds
+        
+        //CREATE THE THREADS
+        Thread[] threads = new Thread[threadCount];
         int i = 0;
         for(int t = 0; t < threadCount; t++){
-            int end = i+threadCount;
+            int end = i+threadOJs;
             if(t == threadCount-1) end = simOJs.length;
 
             threads[t] = new Thread(new Runnable() {
@@ -101,21 +114,16 @@ public class Simulation{
                     return this; 
                 }
 
-                @Override public void run() { stepPartial(last_dt, start, end); }
+                @Override public void run() { stepPartial(dt, start, end); }
 
             }.setRange(i, end));
-            System.out.println(i + " " + end);
-            i += threadCount;
-        }
-    }
-    
-    public void step(double dt){//dt in seconds
-        
-        for(int t = 0; t < threads.length; t++){
             threads[t].start();
+            i += threadOJs;
         }
+
+        //END THE THREADS
         try{
-            for(int t = 0; t < threads.length; t++)
+            for(int t = 0; t < threadCount; t++)
                 threads[t].join(0);//make all threads end again
         }catch(Exception e){}
 
