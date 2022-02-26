@@ -2,6 +2,7 @@ import java.awt.*;
 import java.util.Hashtable;
 
 import javax.swing.*;
+import javax.swing.plaf.SliderUI;
 
 import MathLib.Vector2;
 
@@ -15,6 +16,9 @@ public class AnimationSurface extends JPanel {
     private long deltaTime;
     private int boidSize;
     private JSlider animationspeed;
+    private JSlider cohesion;
+    private JSlider seperation;
+    private JSlider alignment;
 
     AnimationObject[] objects;
 
@@ -41,21 +45,33 @@ public class AnimationSurface extends JPanel {
         createAnimationObjects(objectcount);// create objects
         frame.add(this);
 
-        animationspeed = new JSlider(JSlider.VERTICAL, 5, 80, 20);
+        animationspeed = new JSlider(JSlider.HORIZONTAL, 5, 80, 20);
         animationspeed.setMajorTickSpacing(5);
         animationspeed.setMinorTickSpacing(1);
-        animationspeed.setBounds(10, frame.getHeight() / 2 - 125, 60, 250);
-
-        Hashtable labelTable = new Hashtable();
-        labelTable.put(new Integer(20), new JLabel("1x"));
-        labelTable.put(new Integer(5), new JLabel("0.25x"));
-        labelTable.put(new Integer(animationspeed.getMaximum()), new JLabel("4x"));
-
-        animationspeed.setLabelTable(labelTable);
+        animationspeed.setBounds(10, frame.getHeight() - 60, 250, 60);
+        Hashtable animspeedTable = new Hashtable();
+        animspeedTable.put(20, new JLabel("1x"));
+        animspeedTable.put(5, new JLabel("0.25x"));
+        animspeedTable.put(animationspeed.getMaximum(), new JLabel("4x"));
+        animationspeed.setLabelTable(animspeedTable);
         animationspeed.setPaintLabels(true);
         animationspeed.setPaintTicks(true);
         animationspeed.setFocusable(false);
         add(animationspeed);
+
+        cohesion = new JSlider(JSlider.HORIZONTAL, 0, 1000, 5);
+        cohesion.setMajorTickSpacing(100);
+        cohesion.setMinorTickSpacing(10);
+        cohesion.setBounds(270, frame.getHeight() - 60, 250, 60);
+        Hashtable cohesionTable = new Hashtable();
+        cohesionTable.put(5, new JLabel("normal"));
+        cohesionTable.put(0, new JLabel("0"));
+        cohesionTable.put(1000, new JLabel("1"));
+        cohesion.setLabelTable(cohesionTable);
+        cohesion.setPaintLabels(true);
+        cohesion.setPaintTicks(true);
+        cohesion.setFocusable(false);
+        add(cohesion);
 
         while (!frame.isVisible()) {
             try {
@@ -87,12 +103,12 @@ public class AnimationSurface extends JPanel {
             objects[i].setPosition(new Vector2(rand.nextInt((int) getframeDimension().x),
                     rand.nextInt((int) getframeDimension().y)));
             objects[i].setColor(new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));
-            objects[i].setDirection(new Vector2(rand.nextInt(1), rand.nextInt(1)));
+            objects[i].setVelocity(new Vector2(rand.nextInt(1), rand.nextInt(1)));
 
         }
 
         if (objectcount <= 100000) {
-            boidSize = 2;
+            boidSize = 3;
         }
         if (objectcount <= 10000) {
             boidSize = 5;
