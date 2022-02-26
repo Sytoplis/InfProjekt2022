@@ -126,7 +126,8 @@ public class AnimationSurface extends JPanel {
         // g.fillRect(0, 0, getWidth(), getHeight());
 
         // sim.step(0.1*deltaTime/1000);
-        double tempstep = animationspeed.getValue() / 5;
+        double tempstep = animationspeed.getValue();
+        tempstep = tempstep / 5;
         sim.step(tempstep);
 
         for (int i = 0; i < objects.length; i++) {

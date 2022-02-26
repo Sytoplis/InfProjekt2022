@@ -87,7 +87,7 @@ public class Main {
 
         JDialog chooseobjectcount = new JDialog(temp, "Objektzahl");
         chooseobjectcount.setBounds((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2 - 200,
-                (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2 - 150, 400, 280);
+                (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2 - 150, 400, 260);
         chooseobjectcount.setMinimumSize(chooseobjectcount.getSize());
         chooseobjectcount.setMaximumSize(chooseobjectcount.getSize());
         chooseobjectcount.setLayout(null);
@@ -96,7 +96,7 @@ public class Main {
 
         JLabel description = new JLabel();
         description.setText("Bitte Anzahl der Objekte eingeben!");
-        description.setBounds(chooseobjectcount.getWidth() / 2 - 100, 20, 200, 20);
+        description.setBounds(chooseobjectcount.getWidth() / 2 - 100, 15, 200, 20);
         description.setForeground(Color.black);
         description.setBackground(Color.gray);
         description.setVisible(true);
@@ -104,7 +104,7 @@ public class Main {
 
         JLabel descriptionextrange = new JLabel();
         descriptionextrange.setText("Alternativ einen neuen Bereich festlegen:");
-        descriptionextrange.setBounds(40, chooseobjectcount.getHeight() / 2 - 50,
+        descriptionextrange.setBounds(40, chooseobjectcount.getHeight() / 2 - 40,
                 240, 20);
         descriptionextrange.setForeground(Color.black);
         descriptionextrange.setBackground(Color.gray);
@@ -112,7 +112,7 @@ public class Main {
         chooseobjectcount.add(descriptionextrange);
 
         JLabel selectedvalue = new JLabel("100");
-        selectedvalue.setBounds(chooseobjectcount.getWidth() / 2 - 50, chooseobjectcount.getHeight() / 2 - 20, 100, 30);
+        selectedvalue.setBounds(chooseobjectcount.getWidth() / 2 - 50, chooseobjectcount.getHeight() / 2 - 10, 100, 30);
         selectedvalue.setVisible(true);
         selectedvalue.setHorizontalAlignment(SwingConstants.CENTER);
         selectedvalue.setVerticalAlignment(SwingConstants.CENTER);
@@ -123,7 +123,7 @@ public class Main {
         JSlider movecount = new JSlider(SwingConstants.HORIZONTAL, 1, 1000, 100);
         movecount.setMajorTickSpacing(200);
         movecount.setMinorTickSpacing(10);
-        movecount.setBounds(30, chooseobjectcount.getHeight() / 2 - 100, chooseobjectcount.getWidth() - 70, 50);
+        movecount.setBounds(30, chooseobjectcount.getHeight() / 2 - 90, chooseobjectcount.getWidth() - 70, 50);
         movecount.setPaintTicks(true);
         movecount.setPaintLabels(true);
         chooseobjectcount.add(movecount);
@@ -137,7 +137,7 @@ public class Main {
         movecount.setLabelTable(creatHashtable(movecount));
 
         JTextField rangeinput = new JTextField();
-        rangeinput.setBounds(280, chooseobjectcount.getHeight() / 2 - 50, 70, 20);
+        rangeinput.setBounds(280, chooseobjectcount.getHeight() / 2 - 40, 70, 20);
         rangeinput.setVisible(true);
         rangeinput.setText("1000");
         rangeinput.setToolTipText(
@@ -146,7 +146,7 @@ public class Main {
 
         JButton select = new JButton("Bestätigen");
         select.setBounds(chooseobjectcount.getWidth() / 2 - 50, chooseobjectcount.getHeight() - 100, 100, 50);
-        select.setBackground(Color.gray);
+        select.setBackground(Color.white);
         select.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
