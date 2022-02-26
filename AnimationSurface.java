@@ -59,19 +59,33 @@ public class AnimationSurface extends JPanel {
         animationspeed.setFocusable(false);
         add(animationspeed);
 
-        cohesion = new JSlider(JSlider.HORIZONTAL, 0, 1000, 5);
-        cohesion.setMajorTickSpacing(100);
-        cohesion.setMinorTickSpacing(10);
+        cohesion = new JSlider(JSlider.HORIZONTAL, 0, 100, 5);
+        cohesion.setMajorTickSpacing(10);
+        cohesion.setMinorTickSpacing(5);
         cohesion.setBounds(270, frame.getHeight() - 60, 250, 60);
         Hashtable cohesionTable = new Hashtable();
-        cohesionTable.put(5, new JLabel("normal"));
+        cohesionTable.put(5, new JLabel("n"));
         cohesionTable.put(0, new JLabel("0"));
-        cohesionTable.put(1000, new JLabel("1"));
+        cohesionTable.put(100, new JLabel("0.1"));
         cohesion.setLabelTable(cohesionTable);
         cohesion.setPaintLabels(true);
         cohesion.setPaintTicks(true);
         cohesion.setFocusable(false);
         add(cohesion);
+
+        seperation = new JSlider(JSlider.HORIZONTAL, 0, 100, 5);
+        seperation.setMajorTickSpacing(10);
+        seperation.setMinorTickSpacing(5);
+        seperation.setBounds(270, frame.getHeight() - 60, 250, 60);
+        Hashtable seperationTable = new Hashtable();
+        seperationTable.put(5, new JLabel("n"));
+        seperationTable.put(0, new JLabel("0"));
+        seperationTable.put(100, new JLabel("1"));
+        seperation.setLabelTable(seperationTable);
+        seperation.setPaintLabels(true);
+        seperation.setPaintTicks(true);
+        seperation.setFocusable(false);
+        add(seperation);
 
         while (!frame.isVisible()) {
             try {
@@ -103,7 +117,7 @@ public class AnimationSurface extends JPanel {
             objects[i].setPosition(new Vector2(rand.nextInt((int) getframeDimension().x),
                     rand.nextInt((int) getframeDimension().y)));
             objects[i].setColor(new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));
-            objects[i].setVelocity(new Vector2(rand.nextInt(1), rand.nextInt(1)));
+            objects[i].setVelocity(new Vector2(0, 0));
 
         }
 
