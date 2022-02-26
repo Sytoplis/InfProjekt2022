@@ -27,7 +27,6 @@ public class BoidSim extends Simulation{
             CompForces(dt);
 
             super.step(dt);
-            System.out.println(getVel());
         }
 
         private void keepWithinBounds(double dt){
