@@ -76,7 +76,7 @@ public class AnimationSurface extends JPanel {
         seperation = new JSlider(JSlider.HORIZONTAL, 0, 100, 5);
         seperation.setMajorTickSpacing(10);
         seperation.setMinorTickSpacing(5);
-        seperation.setBounds(270, frame.getHeight() - 60, 250, 60);
+        seperation.setBounds(530, frame.getHeight() - 60, 250, 60);
         Hashtable seperationTable = new Hashtable();
         seperationTable.put(5, new JLabel("n"));
         seperationTable.put(0, new JLabel("0"));
@@ -86,6 +86,20 @@ public class AnimationSurface extends JPanel {
         seperation.setPaintTicks(true);
         seperation.setFocusable(false);
         add(seperation);
+
+        alignment = new JSlider(JSlider.HORIZONTAL, 0, 100, 1);
+        alignment.setMajorTickSpacing(10);
+        alignment.setMinorTickSpacing(5);
+        alignment.setBounds(790, frame.getHeight() - 60, 250, 60);
+        Hashtable alignmentTable = new Hashtable();
+        alignmentTable.put(1, new JLabel("n"));
+        alignmentTable.put(0, new JLabel("0"));
+        alignmentTable.put(100, new JLabel("1"));
+        alignment.setLabelTable(alignmentTable);
+        alignment.setPaintLabels(true);
+        alignment.setPaintTicks(true);
+        alignment.setFocusable(false);
+        add(alignment);
 
         while (!frame.isVisible()) {
             try {
@@ -162,7 +176,8 @@ public class AnimationSurface extends JPanel {
 
         for (int i = 0; i < objects.length; i++) {
             g.setColor(objects[i].getColor());
-            g.fillOval((int) objects[i].getPosition().x, (int) objects[i].getPosition().y, boidSize, boidSize);
+            g.fillOval((int) objects[i].getPosition().x - boidSize / 2, (int) objects[i].getPosition().y - boidSize / 2,
+                    boidSize, boidSize);
 
         }
     }
