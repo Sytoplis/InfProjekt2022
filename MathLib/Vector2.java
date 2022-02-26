@@ -10,6 +10,7 @@ public class Vector2
 
     public Vector2() { }
     public Vector2(double x, double y) { this.x = x; this.y = y; }
+    public Vector2(Vector2 vec) { this.x = vec.x; this.y = vec.y; }
 
     //IMPORTANT NOTE: DO NOT CREATE FOR EVERYTHING NEW VECTOR OBJECTS!! YOU ARE KILLING THE MEMORY!! STOP THAT!!
 

@@ -43,9 +43,8 @@ public class Simulation{
         public void applyStep(double dt){//update position based on velocity
             getVel().ClipDiagLength(maxSpeed);
 
-            getVel().mul(dt);
-            getPos().add(getVel());//new pos = old pos + vel * dt
-            getVel().mul(1.0/dt);//change velocity back to normal value (better than creating a new scaled object)
+            getPos().x += getVel().x * dt;//new pos = old pos + vel * dt
+            getPos().y += getVel().y * dt;//new pos = old pos + vel * dt
 
             getPos().clamp(boundMin, boundMax);//clamp position into screensize
         }
@@ -59,14 +58,14 @@ public class Simulation{
 
     public SimOJ[] simOJs;
 
-    public SimOJ createSimOJ(AnimationObject animOJ, int id){ return new SimOJ(animOJ, id, 0); }
+    public SimOJ createSimOJ(AnimationObject animOJ, int id){ return new SimOJ(animOJ, id, 5); }
 
     //CONSTRUCTOR
     public Simulation(AnimationObject[] initAnim, double width, double height){
         size = new Vector2(width, height);
 
-        boundMin = Vector2.one.mul(boundOffset);
-        boundMax = size.sub(boundMin);
+        boundMin = new Vector2(boundOffset, boundOffset);
+        boundMax = new Vector2(size).sub(boundMin);
         
         simOJs = new SimOJ[initAnim.length];
         for(int i = 0; i < initAnim.length; i++){//loads all animation objects into the simulation

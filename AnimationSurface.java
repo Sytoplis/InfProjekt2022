@@ -144,7 +144,7 @@ public class AnimationSurface extends JPanel {
         }
         deltaTime = 10;
 
-        sim = new BoidSim(objects, frame.getWidth(), frame.getHeight());
+        sim = new Simulation(objects, frame.getWidth(), frame.getHeight());
     }
 
     @Override
