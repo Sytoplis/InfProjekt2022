@@ -1,9 +1,6 @@
 import java.awt.*;
 import java.util.Hashtable;
-
 import javax.swing.*;
-import javax.swing.plaf.SliderUI;
-
 import MathLib.Vector2;
 
 public class AnimationSurface extends JPanel {
@@ -45,13 +42,21 @@ public class AnimationSurface extends JPanel {
         createAnimationObjects(objectcount);// create objects
         frame.add(this);
 
-        animationspeed = new JSlider(JSlider.HORIZONTAL, 5, 80, 20);
-        animationspeed.setMajorTickSpacing(5);
-        animationspeed.setMinorTickSpacing(1);
-        animationspeed.setBounds(10, frame.getHeight() - 60, 250, 60);
+        JLabel mark = new JLabel("I");
+        mark.setForeground(Color.red);
+
+        JLabel animationLabel = new JLabel();
+        animationLabel.setText("Geschwindigkeit");
+        animationLabel.setBounds(10, frame.getHeight() - 75, 100, 60);
+        add(animationLabel);
+
+        animationspeed = new JSlider(JSlider.HORIZONTAL, 0, 80, 20);
+        animationspeed.setMajorTickSpacing(20);
+        animationspeed.setMinorTickSpacing(5);
+        animationspeed.setBounds(110, frame.getHeight() - 75, 250, 60);
         Hashtable animspeedTable = new Hashtable();
-        animspeedTable.put(20, new JLabel("1x"));
-        animspeedTable.put(5, new JLabel("0.25x"));
+        animspeedTable.put(20, mark);
+        animspeedTable.put(0, new JLabel("0x"));
         animspeedTable.put(animationspeed.getMaximum(), new JLabel("4x"));
         animationspeed.setLabelTable(animspeedTable);
         animationspeed.setPaintLabels(true);
@@ -59,42 +64,57 @@ public class AnimationSurface extends JPanel {
         animationspeed.setFocusable(false);
         add(animationspeed);
 
-        cohesion = new JSlider(JSlider.HORIZONTAL, 0, 100, 5);
-        cohesion.setMajorTickSpacing(10);
-        cohesion.setMinorTickSpacing(5);
-        cohesion.setBounds(270, frame.getHeight() - 60, 250, 60);
+        JLabel cohesionLabel = new JLabel();
+        cohesionLabel.setText("Zusammenhalt");
+        cohesionLabel.setBounds(490, frame.getHeight() - 75, 100, 60);
+        add(cohesionLabel);
+
+        cohesion = new JSlider(JSlider.HORIZONTAL, 0, 50, 5);
+        cohesion.setMajorTickSpacing(5);
+        cohesion.setMinorTickSpacing(1);
+        cohesion.setBounds(590, frame.getHeight() - 75, 250, 60);
         Hashtable cohesionTable = new Hashtable();
-        cohesionTable.put(5, new JLabel("n"));
-        cohesionTable.put(0, new JLabel("0"));
-        cohesionTable.put(100, new JLabel("0.1"));
+        cohesionTable.put(5, mark);
+        cohesionTable.put(0, new JLabel("0x"));
+        cohesionTable.put(50, new JLabel("10x"));
         cohesion.setLabelTable(cohesionTable);
         cohesion.setPaintLabels(true);
         cohesion.setPaintTicks(true);
         cohesion.setFocusable(false);
         add(cohesion);
 
-        seperation = new JSlider(JSlider.HORIZONTAL, 0, 100, 5);
-        seperation.setMajorTickSpacing(10);
-        seperation.setMinorTickSpacing(5);
-        seperation.setBounds(530, frame.getHeight() - 60, 250, 60);
+        JLabel seperationLabel = new JLabel();
+        seperationLabel.setText("Trennung");
+        seperationLabel.setBounds(970, frame.getHeight() - 75, 100, 60);
+        add(seperationLabel);
+
+        seperation = new JSlider(JSlider.HORIZONTAL, 0, 500, 50);
+        seperation.setMajorTickSpacing(50);
+        seperation.setMinorTickSpacing(10);
+        seperation.setBounds(1070, frame.getHeight() - 75, 250, 60);
         Hashtable seperationTable = new Hashtable();
-        seperationTable.put(5, new JLabel("n"));
-        seperationTable.put(0, new JLabel("0"));
-        seperationTable.put(100, new JLabel("1"));
+        seperationTable.put(50, mark);
+        seperationTable.put(0, new JLabel("0x"));
+        seperationTable.put(500, new JLabel("10x"));
         seperation.setLabelTable(seperationTable);
         seperation.setPaintLabels(true);
         seperation.setPaintTicks(true);
         seperation.setFocusable(false);
         add(seperation);
 
-        alignment = new JSlider(JSlider.HORIZONTAL, 0, 100, 1);
+        JLabel alignmentLabel = new JLabel();
+        alignmentLabel.setText("Angleichung");
+        alignmentLabel.setBounds(1450, frame.getHeight() - 75, 100, 60);
+        add(alignmentLabel);
+
+        alignment = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
         alignment.setMajorTickSpacing(10);
-        alignment.setMinorTickSpacing(5);
-        alignment.setBounds(790, frame.getHeight() - 60, 250, 60);
+        alignment.setMinorTickSpacing(2);
+        alignment.setBounds(1560, frame.getHeight() - 75, 250, 60);
         Hashtable alignmentTable = new Hashtable();
-        alignmentTable.put(1, new JLabel("n"));
-        alignmentTable.put(0, new JLabel("0"));
-        alignmentTable.put(100, new JLabel("1"));
+        alignmentTable.put(10, mark);
+        alignmentTable.put(0, new JLabel("0x"));
+        alignmentTable.put(100, new JLabel("10x"));
         alignment.setLabelTable(alignmentTable);
         alignment.setPaintLabels(true);
         alignment.setPaintTicks(true);
@@ -169,10 +189,9 @@ public class AnimationSurface extends JPanel {
         g.setColor(new Color(201, 234, 255));
         // g.fillRect(0, 0, getWidth(), getHeight());
 
-        // sim.step(0.1*deltaTime/1000);
         double tempstep = animationspeed.getValue();
-        tempstep = tempstep / 5;
-        sim.step(tempstep);
+        tempstep = tempstep / 10;
+        // sim.step(tempstep);
 
         for (int i = 0; i < objects.length; i++) {
             g.setColor(objects[i].getColor());
