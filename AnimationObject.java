@@ -5,24 +5,24 @@ import MathLib.Vector2;
 public class AnimationObject {
 
     private Vector2 position = new Vector2();
-    private Vector2 direction = new Vector2();
+    private Vector2 velocity = new Vector2();
     private Color objectColor;
 
     public AnimationObject() {
 
-        this.direction = Vector2.zero;
+        this.velocity = Vector2.zero;
         this.position = Vector2.zero;
         objectColor = Color.black;
     }
 
-    public Vector2 getDirection() {
+    public Vector2 getVelocity() {
 
-        return this.direction;
+        return this.velocity;
     }
 
-    public void setDirection(Vector2 newdirection) {
+    public void setVelocity(Vector2 newvelocity) {
 
-        this.direction = newdirection;
+        this.velocity = newvelocity;
     }
 
     public Vector2 getPosition() {

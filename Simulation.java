@@ -4,6 +4,8 @@ import MathLib.MathLib;
 public class Simulation{
 
     public Vector2 size;
+
+    private double boundOffset = 0.01;
     public Vector2 boundMin;
     public Vector2 boundMax;
 
@@ -22,33 +24,30 @@ public class Simulation{
         public Vector2 getPos() { return animOJ.getPosition(); }
         public void setPos(Vector2 value) { animOJ.setPosition(value); }
 
-        public Vector2 getDir() { return animOJ.getDirection(); }
-        public void setDir(Vector2 value) { animOJ.setDirection(value); }
-
         public SimOJ(AnimationObject animOJ, int id, double initSpeed){
             this.animOJ = animOJ;
             this.id = id;
 
             setPos(new Vector2(MathLib.rnd(size.x), MathLib.rnd(size.y)));//set boid to random position on screen
-            setVel(new Vector2(MathLib.rnd(-1, 1), MathLib.rnd(-1, 1)).normalized().mul(initSpeed));//give boid a random direction
+            setVel(new Vector2(MathLib.rnd(-1, 1), MathLib.rnd(-1, 1)).normalize().mul(initSpeed));//give boid a random direction
         }
 
 
         //--------------------- MOVEMENT --------------------------------------------
-        private Vector2 vel;
-        public Vector2 getVel() { return vel; }
-        public void setVel(Vector2 vel) { 
-            this.vel = vel; 
-            setDir(vel.normalized());//update the direction, so it is always facing in the movement direction
-        }
+        public Vector2 getVel() { return animOJ.getVelocity(); }
+        public void setVel(Vector2 vel) { animOJ.setVelocity(vel); }
 
         public void step(double dt){//step this boid one timestep forward
         }
 
         public void applyStep(double dt){//update position based on velocity
-            vel.ClipDiagLength(maxSpeed);
-            setPos(getPos().add(vel.mul(dt)));//new pos = old pos + vel * dt
-            setPos(getPos().clamp(boundMin, boundMax));//clamp position into screensize
+            getVel().ClipDiagLength(maxSpeed);
+
+            getVel().mul(dt);
+            getPos().add(getVel());//new pos = old pos + vel * dt
+            getVel().mul(1.0/dt);//change velocity back to normal value (better than creating a new scaled object)
+
+            getPos().clamp(boundMin, boundMax);//clamp position into screensize
         }
 
         //--------------------- SPACIAL HASHING --------------------------------------------
@@ -66,7 +65,6 @@ public class Simulation{
     public Simulation(AnimationObject[] initAnim, double width, double height){
         size = new Vector2(width, height);
 
-        double boundOffset = 0.01;
         boundMin = Vector2.one.mul(boundOffset);
         boundMax = size.sub(boundMin);
         

@@ -104,12 +104,12 @@ public class BoidSim extends Simulation{
 
                         sqrDist = simOJs[i].getPos().sqrDist(pos);
                         if(sqrDist < visualRad*visualRad){//if boid is visible
-                            avrgCohPos = avrgCohPos.add(simOJs[i].getPos());
-                            avrgVel = avrgVel.add(simOJs[i].getVel());
+                            avrgCohPos.add(simOJs[i].getPos());
+                            avrgVel.add(simOJs[i].getVel());
                             visCount++;
 
                             if(sqrDist < seperationRad*seperationRad){
-                                avrgSepPos = avrgSepPos.add(simOJs[i].getPos());
+                                avrgSepPos.add(simOJs[i].getPos());
                                 sepCount++;
                             }
                         }
@@ -117,21 +117,21 @@ public class BoidSim extends Simulation{
                 }
 
             if(visCount != 0){
-                avrgCohPos = avrgCohPos.mul(1.0/visCount);//divide sum by count to get avrg
-                avrgCohPos = avrgCohPos.sub(pos);//make avrage position relative to current boid position
-                avrgCohPos = avrgCohPos.mul(dt*cohesionStrength);//scale avrgPos to become a force
+                avrgCohPos.mul(1.0/visCount);//divide sum by count to get avrg
+                avrgCohPos.sub(pos);//make avrage position relative to current boid position
+                avrgCohPos.mul(dt*cohesionStrength);//scale avrgPos to become a force
 
-                avrgVel = avrgVel.mul(1.0/visCount);//divide sum by count to get avrg
-                avrgVel = avrgVel.mul(dt*alignmentStrength);//scale avrgPos to become a force
+                avrgVel.mul(1.0/visCount);//divide sum by count to get avrg
+                avrgVel.mul(dt*alignmentStrength);//scale avrgPos to become a force
             }
 
             if(sepCount != 0){
-                avrgSepPos = avrgSepPos.mul(1.0/sepCount);//divide sum by count to get avrg
-                avrgSepPos = avrgSepPos.sub(pos);//make avrage position relative to current boid position
-                avrgSepPos = avrgSepPos.mul(dt*-seperationStrength);//scale avrgPos to become a force
+                avrgSepPos.mul(1.0/sepCount);//divide sum by count to get avrg
+                avrgSepPos.sub(pos);//make avrage position relative to current boid position
+                avrgSepPos.mul(dt*-seperationStrength);//scale avrgPos to become a force
             }
 
-            setVel(getVel().add(avrgCohPos).add(avrgSepPos).add(avrgVel));
+            getVel().add(avrgCohPos).add(avrgSepPos).add(avrgVel);
         }
     }
 

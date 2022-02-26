@@ -11,18 +11,36 @@ public class Vector2
     public Vector2() { }
     public Vector2(double x, double y) { this.x = x; this.y = y; }
 
-    public Vector2 add(Vector2 b)
-    {
+    //IMPORTANT NOTE: DO NOT CREATE FOR EVERYTHING NEW VECTOR OBJECTS!! YOU ARE KILLING THE MEMORY!! STOP THAT!!
+
+
+    /*
+    public Vector2 add(Vector2 b){
         return new Vector2(x + b.x, y + b.y);
     }
     public Vector2 sub(Vector2 b){
         return new Vector2(x - b.x, y - b.y);
     }
 
-    public Vector2 mul(double mul)
-    {
+    public Vector2 mul(double mul){
         return new Vector2(x * mul, y * mul);
+    }*/
+    public Vector2 add(Vector2 b){
+        x += b.x;
+        y += b.y;
+        return this;
     }
+    public Vector2 sub(Vector2 b){
+        x -= b.x;
+        y -= b.y;
+        return this;
+    }
+    public Vector2 mul(double mul){
+        x *= mul;
+        y *= mul;
+        return this;
+    }
+
 
     public double len()
     {   
@@ -39,15 +57,17 @@ public class Vector2
     }
 
     
-    public void normalize(){
+    public Vector2 normalize(){
         double l = len();
         x /= l;
         y /= l;
+        return this;
     }
+    /*
     public Vector2 normalized(){
         double l = len();
         return new Vector2(x / l, y / l);
-    }
+    }*/
 
 
     public void ClipDiagLength(double max){
@@ -55,11 +75,23 @@ public class Vector2
         if(y > max) y = max;
     }
 
+    /*
     public Vector2 clamp(double min, double max){
         return new Vector2(MathLib.clamp(min, max, x), MathLib.clamp(min, max, y));
     }
     public Vector2 clamp(Vector2 min, Vector2 max){
         return new Vector2(MathLib.clamp(min.x, max.x, x), MathLib.clamp(min.y, max.y, y));
+    }*/
+
+    public Vector2 clamp(double min, double max){
+        x = MathLib.clamp(min, max, x);
+        y = MathLib.clamp(min, max, y);
+        return this;
+    }
+    public Vector2 clamp(Vector2 min, Vector2 max){
+        x = MathLib.clamp(min.x, max.x, x);
+        y = MathLib.clamp(min.y, max.y, y);
+        return this;
     }
 
 
