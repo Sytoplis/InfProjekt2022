@@ -2,8 +2,8 @@ package MathLib;
 
 public class Vector2
 {
-    public static final Vector2 zero = new Vector2(0 ,0);
-    public static final Vector2 one = new Vector2(1 ,1);
+    public static final Vector2 zero() { return new Vector2(0 ,0); }
+    public static final Vector2 one() { return new Vector2(1 ,1); }
 
     public double x = 0;
     public double y = 0;
@@ -69,12 +69,6 @@ public class Vector2
         double l = len();
         return new Vector2(x / l, y / l);
     }*/
-
-
-    public void ClipDiagLength(double max){
-        if(x > max) x = max;
-        if(y > max) y = max;
-    }
 
     /*
     public Vector2 clamp(double min, double max){

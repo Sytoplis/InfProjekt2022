@@ -41,7 +41,7 @@ public class Simulation{
         }
 
         public void applyStep(double dt){//update position based on velocity
-            getVel().ClipDiagLength(maxSpeed);
+            getVel().clamp(-maxSpeed, maxSpeed);
 
             getPos().x += getVel().x * dt;//new pos = old pos + vel * dt
             getPos().y += getVel().y * dt;//new pos = old pos + vel * dt

@@ -14,7 +14,7 @@ public class BoidSim extends Simulation{
 
     public class Boid extends SimOJ{
         public Boid(AnimationObject animOJ, int id){
-            super(animOJ, id, 0);//initSpeed 5
+            super(animOJ, id, 5);//initSpeed 5
             setPos(new Vector2(MathLib.rnd(margin, size.x-margin), MathLib.rnd(margin, size.y-margin)));//update position to not spawn in the border
         }
         
@@ -27,15 +27,21 @@ public class BoidSim extends Simulation{
             CompForces(dt);
 
             super.step(dt);
+            System.out.println(getVel());
         }
 
         private void keepWithinBounds(double dt){
             Vector2 v = getVel();
+            /*
             if(getPos().x < margin)         v.x += turnFactor * dt;
-            if(getPos().x > size.x - margin) v.x -= turnFactor * dt;
+            if(getPos().x > size.x - margin)v.x -= turnFactor * dt;
             if(getPos().y < margin)         v.y += turnFactor * dt;
-            if(getPos().y > size.y - margin)v.y -= turnFactor * dt;
-            setVel(v);
+            if(getPos().y > size.y - margin)v.y -= turnFactor * dt;*/
+
+            if(getPos().x < margin)         v.x *= -1;
+            if(getPos().x > size.x - margin)v.x *= -1;
+            if(getPos().y < margin)         v.y *= -1;
+            if(getPos().y > size.y - margin)v.y *= -1;
         }
 
         //---------------------------------THE SLOW, BUT EASY TO UNDERSTAND ALGORITHM (runs for all boids in O(n²) [always])
@@ -88,9 +94,9 @@ public class BoidSim extends Simulation{
             double sqrDist = 0;//allocate memory for sqr distance for faster usage
             Vector2 pos = getPos();
 
-            Vector2 avrgCohPos = Vector2.zero;
-            Vector2 avrgSepPos = Vector2.zero;
-            Vector2 avrgVel = Vector2.zero;
+            Vector2 avrgCohPos = Vector2.zero();
+            Vector2 avrgSepPos = Vector2.zero();
+            Vector2 avrgVel = Vector2.zero();
             int visCount = 0;
             int sepCount = 0;
             //for(int i = 0; i < simOJs.length; i++){//the O(n²) approach

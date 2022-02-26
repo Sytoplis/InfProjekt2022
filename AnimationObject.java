@@ -9,42 +9,33 @@ public class AnimationObject {
     private Color objectColor;
 
     public AnimationObject() {
-
-        this.velocity = Vector2.zero;
-        this.position = Vector2.zero;
+        velocity = Vector2.zero();
+        position = Vector2.zero();
         objectColor = Color.black;
     }
 
     public Vector2 getVelocity() {
-
-        return this.velocity;
+        return velocity;
     }
 
     public void setVelocity(Vector2 newvelocity) {
-
-        this.velocity = newvelocity;
+        velocity = newvelocity;
     }
 
     public Vector2 getPosition() {
-
-        return this.position;
+        return position;
     }
 
     public void setPosition(Vector2 newposition) {
-
-        this.position = newposition;
-
+        position = newposition;
     }
 
     public Color getColor() {
-
-        return this.objectColor;
+        return objectColor;
     }
 
     public void setColor(Color color) {
-
-        this.objectColor = color;
-
+        objectColor = color;
     }
 
 }
