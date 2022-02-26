@@ -126,7 +126,8 @@ public class AnimationSurface extends JPanel {
         // g.fillRect(0, 0, getWidth(), getHeight());
 
         // sim.step(0.1*deltaTime/1000);
-        sim.step(animationspeed.getValue() / 20);
+        double tempstep = animationspeed.getValue() / 5;
+        sim.step(tempstep);
 
         for (int i = 0; i < objects.length; i++) {
             g.setColor(objects[i].getColor());
@@ -139,7 +140,7 @@ public class AnimationSurface extends JPanel {
 
         while (true) {
             if (!paused) {
-                deltaTime = 1 / animationspeed.getValue();
+                deltaTime = 1000 / animationspeed.getValue();
                 frame.repaint();
                 try {
                     Thread.sleep(deltaTime);
