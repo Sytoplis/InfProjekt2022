@@ -15,6 +15,10 @@ public class Simulation{
     public Vector2 gridCellSize;
     private Vector2 invCellSize;
 
+    private Thread[] threads;
+    private int threadOJCount;
+    private double last_dt;
+
     public class SimOJ{
 
         //---------------------- ANIMATION INTERFACE ---------------------------------
@@ -61,7 +65,7 @@ public class Simulation{
     public SimOJ createSimOJ(AnimationObject animOJ, int id){ return new SimOJ(animOJ, id, 5); }
 
     //CONSTRUCTOR
-    public Simulation(AnimationObject[] initAnim, double width, double height){
+    public Simulation(AnimationObject[] initAnim, double width, double height, int threadCount){
         size = new Vector2(width, height);
 
         boundMin = new Vector2(boundOffset, boundOffset);
@@ -77,16 +81,53 @@ public class Simulation{
         System.out.println("Cell Size: " + gridCellSize);
         invCellSize = new Vector2(1 / gridCellSize.x, 1 / gridCellSize.y);
         grid.UpdateGrid(simOJs);
+
+
+        //THREADS:
+        threadOJCount = simOJs.length / threadCount;
+        threads = new Thread[threadCount];
+        int i = 0;
+        for(int t = 0; t < threadCount; t++){
+            int end = i+threadCount;
+            if(t == threadCount-1) end = simOJs.length;
+
+            threads[t] = new Thread(new Runnable() {
+                int start;
+                int end;
+
+                public Runnable setRange(int start, int end){ 
+                    this.start = start; 
+                    this.end = end;
+                    return this; 
+                }
+
+                @Override public void run() { stepPartial(last_dt, start, end); }
+
+            }.setRange(i, end));
+            System.out.println(i + " " + end);
+            i += threadCount;
+        }
+    }
+    
+    public void step(double dt){//dt in seconds
+        
+        for(int t = 0; t < threads.length; t++){
+            threads[t].start();
+        }
+        try{
+            for(int t = 0; t < threads.length; t++)
+                threads[t].join(0);//make all threads end again
+        }catch(Exception e){}
+
+        grid.UpdateGrid(simOJs);
     }
 
-
-    public void step(double dt){//dt in seconds
-        for(int i = 0; i < simOJs.length; i++){
+    private void stepPartial(double dt, int start, int end){
+        for(int i = start; i < end; i++){
             simOJs[i].step(dt);
         }
-        for(int i = 0; i < simOJs.length; i++){
+        for(int i = start; i < end; i++){
             simOJs[i].applyStep(dt);
         }
-        grid.UpdateGrid(simOJs);
     }
 }

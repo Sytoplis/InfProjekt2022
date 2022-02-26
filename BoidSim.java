@@ -141,7 +141,7 @@ public class BoidSim extends Simulation{
     }
 
     @Override public Simulation.SimOJ createSimOJ(AnimationObject animOJ, int id) { return new Boid(animOJ, id); }//use boid as the standard simoj
-    public BoidSim(AnimationObject[] initAnim, double width, double height){
-        super(initAnim, width, height);
+    public BoidSim(AnimationObject[] initAnim, double width, double height, int threadCount){
+        super(initAnim, width, height, threadCount);
     }
 }
