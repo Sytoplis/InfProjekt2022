@@ -66,7 +66,7 @@ public class Simulation{
     public Simulation(AnimationObject[] initAnim, double width, double height){
         size = new Vector2(width, height);
 
-        double boundOffset = 0.1;
+        double boundOffset = 0.01;
         boundMin = Vector2.one.mul(boundOffset);
         boundMax = size.sub(boundMin);
         
