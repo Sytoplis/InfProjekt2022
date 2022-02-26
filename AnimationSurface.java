@@ -32,7 +32,6 @@ public class AnimationSurface extends JPanel {
                 (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 1);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-        frame.setUndecorated(true);
         frame.setLayout(null);
         frame.setIconImage(new ImageIcon("Inhalte/ProgramIcon.png").getImage());
         frame.addKeyListener(input);
@@ -42,15 +41,16 @@ public class AnimationSurface extends JPanel {
         createAnimationObjects(objectcount);// create objects
         frame.add(this);
 
-        animationspeed = new JSlider(JSlider.VERTICAL, 1, 1000, 100);
-        animationspeed.setMajorTickSpacing(100);
-        animationspeed.setMinorTickSpacing(20);
-        animationspeed.setBounds(20, frame.getHeight() / 2 - 100, 40, 200);
+        animationspeed = new JSlider(JSlider.VERTICAL, 5, 80, 20);
+        animationspeed.setMajorTickSpacing(5);
+        animationspeed.setMinorTickSpacing(1);
+        animationspeed.setBounds(10, frame.getHeight() / 2 - 125, 60, 250);
 
         Hashtable labelTable = new Hashtable();
-        labelTable.put(new Integer(100), new JLabel("1x"));
-        labelTable.put(new Integer(1), new JLabel("0.1x"));
-        labelTable.put(new Integer(animationspeed.getMaximum()), new JLabel("10x"));
+        labelTable.put(new Integer(20), new JLabel("1x"));
+        labelTable.put(new Integer(5), new JLabel("0.25x"));
+        labelTable.put(new Integer(animationspeed.getMaximum()), new JLabel("4x"));
+
         animationspeed.setLabelTable(labelTable);
         animationspeed.setPaintLabels(true);
         animationspeed.setPaintTicks(true);
@@ -67,7 +67,7 @@ public class AnimationSurface extends JPanel {
         toggleFullscreen();
         frame.toFront();
         JOptionPane.showMessageDialog(this,
-                "Mit 'ESC' kann die Simulation beendet werden \nMit 'P' kann die Simulation pausiert werden \nMit 'F11' kann der Vollbildmodus gewechselt werden \nMit dem Slider kann die Geschwindigkeit angepasst werden.",
+                "Mit 'ESC' kann die Simulation beendet werden \nMit 'P' kann die Simulation pausiert werden \nMit 'F11' kann der Vollbildmodus gewechselt werden \nMit dem Slider kann die Geschwindigkeit angepasst werden",
                 "Hinweise", JOptionPane.INFORMATION_MESSAGE);
 
         runSimulation();
@@ -92,7 +92,7 @@ public class AnimationSurface extends JPanel {
         }
 
         if (objectcount <= 100000) {
-            boidSize = 1;
+            boidSize = 2;
         }
         if (objectcount <= 10000) {
             boidSize = 5;
@@ -126,7 +126,7 @@ public class AnimationSurface extends JPanel {
         // g.fillRect(0, 0, getWidth(), getHeight());
 
         // sim.step(0.1*deltaTime/1000);
-        sim.step(1);
+        sim.step(animationspeed.getValue() / 20);
 
         for (int i = 0; i < objects.length; i++) {
             g.setColor(objects[i].getColor());

@@ -1,10 +1,14 @@
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import java.util.*;
 import javax.swing.JButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class Main {
 
@@ -20,6 +24,7 @@ public class Main {
                 choices1[0]))];
 
         JFrame temp = new JFrame();
+        temp.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         getobjectcount(temp);
         while (objectcount == 0) {
             try {
@@ -82,7 +87,7 @@ public class Main {
 
         JDialog chooseobjectcount = new JDialog(temp, "Objektzahl");
         chooseobjectcount.setBounds((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2 - 200,
-                (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2 - 150, 400, 300);
+                (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2 - 150, 400, 280);
         chooseobjectcount.setMinimumSize(chooseobjectcount.getSize());
         chooseobjectcount.setMaximumSize(chooseobjectcount.getSize());
         chooseobjectcount.setLayout(null);
@@ -98,41 +103,45 @@ public class Main {
         chooseobjectcount.add(description);
 
         JLabel descriptionextrange = new JLabel();
-        descriptionextrange.setText("Alternativ einen neuen Bereich festelegen:");
-        descriptionextrange.setBounds(chooseobjectcount.getWidth() / 2 - 120, chooseobjectcount.getHeight() / 2 - 50,
+        descriptionextrange.setText("Alternativ einen neuen Bereich festlegen:");
+        descriptionextrange.setBounds(40, chooseobjectcount.getHeight() / 2 - 50,
                 240, 20);
         descriptionextrange.setForeground(Color.black);
         descriptionextrange.setBackground(Color.gray);
         descriptionextrange.setVisible(true);
         chooseobjectcount.add(descriptionextrange);
 
-        JSlider movecount = new JSlider(JSlider.HORIZONTAL, 0, 1000, 100);
+        JLabel selectedvalue = new JLabel("100");
+        selectedvalue.setBounds(chooseobjectcount.getWidth() / 2 - 50, chooseobjectcount.getHeight() / 2 - 20, 100, 30);
+        selectedvalue.setVisible(true);
+        selectedvalue.setHorizontalAlignment(SwingConstants.CENTER);
+        selectedvalue.setVerticalAlignment(SwingConstants.CENTER);
+        selectedvalue.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red),
+                BorderFactory.createLoweredBevelBorder()));
+        chooseobjectcount.add(selectedvalue);
+
+        JSlider movecount = new JSlider(SwingConstants.HORIZONTAL, 1, 1000, 100);
         movecount.setMajorTickSpacing(200);
         movecount.setMinorTickSpacing(10);
         movecount.setBounds(30, chooseobjectcount.getHeight() / 2 - 100, chooseobjectcount.getWidth() - 70, 50);
         movecount.setPaintTicks(true);
         movecount.setPaintLabels(true);
         chooseobjectcount.add(movecount);
-
-        JTextField rangeinput = new JTextField();
-        rangeinput.setBounds(chooseobjectcount.getWidth() / 2 - 100, chooseobjectcount.getHeight() / 2, 200, 20);
-        rangeinput.setVisible(true);
-        rangeinput.setToolTipText(
-                "Hier eine Zahl von 1 bis 100000 (Einhundertausend) eingeben. \n Zum Bestätigen Enter drücken!");
-        rangeinput.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                try {
-                    String sze = rangeinput.getText();
-                    movecount.setMaximum(Integer.valueOf(sze));
-                    movecount.setMajorTickSpacing(Integer.valueOf(sze) / (Integer.valueOf(sze) / 3));
-                    movecount.setMinorTickSpacing(Integer.valueOf(sze) / 100);
-                    movecount.setPaintTicks(false);
-                    movecount.setPaintLabels(false);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        movecount.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                selectedvalue.setText(String.valueOf(movecount.getValue()));
             }
         });
+
+        movecount.setLabelTable(creatHashtable(movecount));
+
+        JTextField rangeinput = new JTextField();
+        rangeinput.setBounds(280, chooseobjectcount.getHeight() / 2 - 50, 70, 20);
+        rangeinput.setVisible(true);
+        rangeinput.setText("1000");
+        rangeinput.setToolTipText(
+                "Hier eine Zahl von 1 bis 100000 (Einhundertausend) eingeben. \n Zum Bestätigen Enter drücken!");
         chooseobjectcount.add(rangeinput);
 
         JButton select = new JButton("Bestätigen");
@@ -149,8 +158,62 @@ public class Main {
         select.setVisible(true);
         chooseobjectcount.add(select);
 
+        KeyListener keyListener = new KeyListener() {
+            public void keyPressed(KeyEvent evt) {
+                // no Event
+            }
+
+            @Override
+            public void keyTyped(KeyEvent evt) {
+                // no Event
+            }
+
+            @Override
+            public void keyReleased(KeyEvent evt) {
+                try {
+                    String sze = rangeinput.getText();
+                    if (Integer.valueOf(sze) < 1) {
+                        rangeinput.setText("1000");
+                        JOptionPane.showMessageDialog(null, "Werte unter 1 sind verboten!", "Ungültige Eingabe",
+                                JOptionPane.ERROR_MESSAGE);
+                        movecount.setMaximum(1000);
+                        movecount.setLabelTable(creatHashtable(movecount));
+
+                    }
+                    if (Integer.valueOf(sze) > 100000) {
+                        rangeinput.setText("1000");
+                        JOptionPane.showMessageDialog(null, "Werte über 100000 sind verboten!",
+                                "Ungültige Eingabe", JOptionPane.ERROR_MESSAGE);
+                        movecount.setMaximum(1000);
+                        movecount.setLabelTable(creatHashtable(movecount));
+
+                    }
+                    sze = rangeinput.getText();
+                    if (Integer.valueOf(sze) > 0 && Integer.valueOf(sze) <= 100000) {
+                        movecount.setMaximum(Integer.valueOf(sze));
+                        movecount.setLabelTable(creatHashtable(movecount));
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        rangeinput.addKeyListener(keyListener);
         chooseobjectcount.setVisible(true);
 
+    }
+
+    public static Hashtable creatHashtable(JSlider slider) {
+
+        Hashtable labelTable = new Hashtable();
+        labelTable.put(slider.getMaximum() / 2,
+                new JLabel(String.valueOf(slider.getMaximum() / 2)));
+        labelTable.put(1, new JLabel("1"));
+        labelTable.put(slider.getMaximum(), new JLabel(String.valueOf(slider.getMaximum())));
+
+        return labelTable;
     }
 
 }
