@@ -4,6 +4,9 @@ import MathLib.MathLib;
 public class Simulation{
 
     public Vector2 size;
+    public Vector2 boundMin;
+    public Vector2 boundMax;
+
     public double maxSpeed = 15;
 
     public Grid grid;
@@ -45,7 +48,7 @@ public class Simulation{
         public void applyStep(double dt){//update position based on velocity
             vel.ClipDiagLength(maxSpeed);
             setPos(getPos().add(vel.mul(dt)));//new pos = old pos + vel * dt
-            setPos(getPos().clamp(Vector2.zero, size));//clamp position into screensize
+            setPos(getPos().clamp(boundMin, boundMax));//clamp position into screensize
         }
 
         //--------------------- SPACIAL HASHING --------------------------------------------
@@ -63,6 +66,10 @@ public class Simulation{
     public Simulation(AnimationObject[] initAnim, double width, double height){
         size = new Vector2(width, height);
 
+        double boundOffset = 0.1;
+        boundMin = Vector2.one.mul(boundOffset);
+        boundMax = size.sub(boundMin);
+        
         simOJs = new SimOJ[initAnim.length];
         for(int i = 0; i < initAnim.length; i++){//loads all animation objects into the simulation
             simOJs[i] = createSimOJ(initAnim[i], i);
