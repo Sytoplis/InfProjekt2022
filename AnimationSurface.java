@@ -40,6 +40,7 @@ public class AnimationSurface extends JPanel {
         setSize(frame.getWidth(), frame.getHeight());
         setLayout(null);
         createAnimationObjects(objectcount);// create objects
+        setBackground(new Color(201, 234, 255));
         frame.add(this);
 
         JLabel mark = new JLabel("I");
@@ -62,6 +63,7 @@ public class AnimationSurface extends JPanel {
         animationspeed.setPaintLabels(true);
         animationspeed.setPaintTicks(true);
         animationspeed.setFocusable(false);
+        animationspeed.setBackground(new Color(201, 234, 255));
         add(animationspeed);
 
         JLabel cohesionLabel = new JLabel();
@@ -81,6 +83,7 @@ public class AnimationSurface extends JPanel {
         cohesion.setPaintLabels(true);
         cohesion.setPaintTicks(true);
         cohesion.setFocusable(false);
+        cohesion.setBackground(new Color(201, 234, 255));
         add(cohesion);
 
         JLabel seperationLabel = new JLabel();
@@ -100,6 +103,7 @@ public class AnimationSurface extends JPanel {
         seperation.setPaintLabels(true);
         seperation.setPaintTicks(true);
         seperation.setFocusable(false);
+        seperation.setBackground(new Color(201, 234, 255));
         add(seperation);
 
         JLabel alignmentLabel = new JLabel();
@@ -119,6 +123,7 @@ public class AnimationSurface extends JPanel {
         alignment.setPaintLabels(true);
         alignment.setPaintTicks(true);
         alignment.setFocusable(false);
+        alignment.setBackground(new Color(201, 234, 255));
         add(alignment);
 
         while (!frame.isVisible()) {
@@ -186,12 +191,9 @@ public class AnimationSurface extends JPanel {
 
         super.paint(g);
 
-        g.setColor(new Color(201, 234, 255));
-        // g.fillRect(0, 0, getWidth(), getHeight());
-
         double tempstep = animationspeed.getValue();
         tempstep = tempstep / 10;
-        // sim.step(tempstep);
+        sim.step(tempstep);
 
         for (int i = 0; i < objects.length; i++) {
             g.setColor(objects[i].getColor());
@@ -205,7 +207,7 @@ public class AnimationSurface extends JPanel {
 
         while (true) {
             if (!paused) {
-                deltaTime = 1000 / animationspeed.getValue();
+                deltaTime = 800 / animationspeed.getValue();
                 frame.repaint();
                 try {
                     Thread.sleep(deltaTime);
