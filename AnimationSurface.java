@@ -13,9 +13,9 @@ public class AnimationSurface extends JPanel {
     private long deltaTime;
     private int boidSize;
     private JSlider animationspeed;
-    private JSlider cohesion;
-    private JSlider seperation;
-    private JSlider alignment;
+    public JSlider cohesion;
+    public JSlider seperation;
+    public JSlider alignment;
 
     AnimationObject[] objects;
 
