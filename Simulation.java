@@ -79,7 +79,6 @@ public class Simulation{
 
         grid = new Grid(10, 10, simOJs);
         gridCellSize = new Vector2(width / grid.getWidth(), height / grid.getHeight());
-        System.out.println("Cell Size: " + gridCellSize);
         invCellSize = new Vector2(1 / gridCellSize.x, 1 / gridCellSize.y);
         grid.UpdateGrid(simOJs);
 

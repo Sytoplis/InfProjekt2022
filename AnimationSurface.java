@@ -8,6 +8,7 @@ public class AnimationSurface extends JPanel {
     private JFrame frame;
     public static AnimationSurface instance;
     private Inputs input = new Inputs();
+    private Mouse mouse = new Mouse();
     private boolean paused;
     private Simulation sim;
     private long deltaTime;
@@ -36,6 +37,7 @@ public class AnimationSurface extends JPanel {
         frame.setLayout(null);
         frame.setIconImage(new ImageIcon("Inhalte/ProgramIcon.png").getImage());
         frame.addKeyListener(input);
+        frame.addMouseListener(mouse);
 
         setSize(frame.getWidth(), frame.getHeight());
         setLayout(null);
@@ -192,7 +194,7 @@ public class AnimationSurface extends JPanel {
         super.paint(g);
 
         double tempstep = animationspeed.getValue();
-        tempstep = tempstep / 10;
+        tempstep = tempstep / 20;
         sim.step(tempstep);
 
         for (int i = 0; i < objects.length; i++) {
@@ -207,7 +209,11 @@ public class AnimationSurface extends JPanel {
 
         while (true) {
             if (!paused) {
-                deltaTime = 800 / animationspeed.getValue();
+                if (animationspeed.getValue() > 0)
+                    deltaTime = 800 / animationspeed.getValue();
+                else 
+                    deltaTime = 800;
+
                 frame.repaint();
                 try {
                     Thread.sleep(deltaTime);
