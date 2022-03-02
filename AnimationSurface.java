@@ -8,9 +8,9 @@ public class AnimationSurface extends JPanel {
     private JFrame frame;
     public static AnimationSurface instance;
     private Inputs input = new Inputs();
-    private Mouse mouse = new Mouse();
     private boolean paused;
     private Simulation sim;
+    private Mouse mouse;
     private long deltaTime;
     private int boidSize;
     private JSlider animationspeed;
@@ -44,7 +44,30 @@ public class AnimationSurface extends JPanel {
         createAnimationObjects(objectcount);// create objects
         setBackground(new Color(201, 234, 255));
         frame.add(this);
+        
+        if(simulationType.equals("Boids")){
+            buildBoidFrame();
+        }else if(simulationType.equals("Gravitation")){
+            buildGravitationFrame();
+        }
 
+        while (!frame.isVisible()) {
+            try {
+                Thread.sleep(1);
+            } catch (Exception e) {
+                e.getStackTrace();
+            }
+        }
+        toggleFullscreen();
+        frame.toFront();
+        JOptionPane.showMessageDialog(this,
+                "Mit 'ESC' kann die Simulation beendet werden \nMit 'P' kann die Simulation pausiert werden \nMit 'F11' kann der Vollbildmodus gewechselt werden \nMit dem Slider kann die Geschwindigkeit angepasst werden",
+                "Hinweise", JOptionPane.INFORMATION_MESSAGE);
+
+        runSimulation();
+    }
+
+    public void buildBoidFrame(){
         JLabel mark = new JLabel("I");
         mark.setForeground(Color.red);
 
@@ -128,25 +151,15 @@ public class AnimationSurface extends JPanel {
         alignment.setBackground(new Color(201, 234, 255));
         add(alignment);
 
-        while (!frame.isVisible()) {
-            try {
-                Thread.sleep(1);
-            } catch (Exception e) {
-                e.getStackTrace();
-            }
-        }
-        toggleFullscreen();
-        frame.toFront();
-        JOptionPane.showMessageDialog(this,
-                "Mit 'ESC' kann die Simulation beendet werden \nMit 'P' kann die Simulation pausiert werden \nMit 'F11' kann der Vollbildmodus gewechselt werden \nMit dem Slider kann die Geschwindigkeit angepasst werden",
-                "Hinweise", JOptionPane.INFORMATION_MESSAGE);
-
-        runSimulation();
     }
 
-    public Vector2 getframeDimension() {
-        return new Vector2(getWidth(), getHeight());
+    public void buildGravitationFrame(){
+
+
     }
+
+
+
 
     public void createAnimationObjects(int objectcount) {
 
@@ -155,8 +168,8 @@ public class AnimationSurface extends JPanel {
 
         for (int i = 0; i < objectcount; i++) {
             objects[i] = new AnimationObject();
-            objects[i].setPosition(new Vector2(rand.nextInt((int) getframeDimension().x),
-                    rand.nextInt((int) getframeDimension().y)));
+            objects[i].setPosition(new Vector2(rand.nextInt((int) getWidth()),
+                    rand.nextInt((int) getHeight())));
             objects[i].setColor(new Color(rand.nextInt(255), rand.nextInt(255), rand.nextInt(255)));
             objects[i].setVelocity(new Vector2(0, 0));
 
@@ -185,7 +198,10 @@ public class AnimationSurface extends JPanel {
         }
         deltaTime = 10;
 
-        sim = new BoidSim(objects, frame.getWidth(), frame.getHeight(), 8);
+        sim = new BoidSim(objects, frame.getWidth(), frame.getHeight(), 4);
+
+       mouse = new Mouse(sim);
+
     }
 
     @Override
@@ -194,7 +210,7 @@ public class AnimationSurface extends JPanel {
         super.paint(g);
 
         double tempstep = animationspeed.getValue();
-        tempstep = tempstep / 20;
+        tempstep = tempstep / 100;
         sim.step(tempstep);
 
         for (int i = 0; i < objects.length; i++) {
@@ -210,7 +226,7 @@ public class AnimationSurface extends JPanel {
         while (true) {
             if (!paused) {
                 if (animationspeed.getValue() > 0)
-                    deltaTime = 800 / animationspeed.getValue();
+                    deltaTime = 60 / animationspeed.getValue();
                 else 
                     deltaTime = 800;
 

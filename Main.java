@@ -17,7 +17,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Object[] choices1 = { "Boids", "Gravitation", "Natural Motion" };
+        Object[] choices1 = { "Boids", "Gravitation" };
         String simulationType = (String) choices1[(JOptionPane.showOptionDialog(null,
                 "Bitte Art der Simulation auswählen!",
                 "Simulation", 0, JOptionPane.QUESTION_MESSAGE, null, choices1,
