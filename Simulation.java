@@ -89,7 +89,12 @@ public class Simulation{
 
     /*
     public void step(double dt){//the step method without threading
-        stepPartial(dt, 0, simOjs.length);
+        for(int i = start; i < end; i++){
+            simOJs[i].step(dt);
+        }
+        for(int i = start; i < end; i++){
+            simOJs[i].applyStep(dt);
+        }
         grid.UpdateGrud(simOjs);
     }
     */
@@ -113,7 +118,11 @@ public class Simulation{
                     return this; 
                 }
 
-                @Override public void run() { stepPartial(dt, start, end); }
+                @Override public void run() {//THE EXECUTION OF THESE THREADS
+                    for(int i = start; i < end; i++){
+                        simOJs[i].step(dt);
+                    }
+                }
 
             }.setRange(i, end));
             threads[t].start();
@@ -126,15 +135,41 @@ public class Simulation{
                 threads[t].join(0);//make all threads end again
         }catch(Exception e){}
 
+
+        //CREATE THE SECOND THREADS
+        i = 0;
+        for(int t = 0; t < threadCount; t++){
+            int end = i+threadOJs;
+            if(t == threadCount-1) end = simOJs.length;
+
+            threads[t] = new Thread(new Runnable() {
+                int start;
+                int end;
+
+                public Runnable setRange(int start, int end){ 
+                    this.start = start; 
+                    this.end = end;
+                    return this; 
+                }
+
+                @Override public void run() {//THE EXECUTION OF THESE THREADS
+                    for(int i = start; i < end; i++){
+                        simOJs[i].applyStep(dt);
+                    }
+                }
+
+            }.setRange(i, end));
+            threads[t].start();
+            i += threadOJs;
+        }
+
         grid.UpdateGrid(simOJs);
     }
 
-    private void stepPartial(double dt, int start, int end){
-        for(int i = start; i < end; i++){
-            simOJs[i].step(dt);
-        }
-        for(int i = start; i < end; i++){
-            simOJs[i].applyStep(dt);
-        }
-    }
+
+
+    //----------------------- MOUSE -------------------------
+    public void onMouseClick(Vector2 pos){}
+    public void onMousePressed(Vector2 pos){}
+    public void onMouseReleased(Vector2 pos){}
 }
