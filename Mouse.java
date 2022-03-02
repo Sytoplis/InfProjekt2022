@@ -6,20 +6,24 @@ import MathLib.Vector2;
 public class Mouse extends MouseAdapter{
 
     public Mouse instance;
+    Simulation sim;
 
-    public Mouse(){
+    public Mouse(Simulation simulation){
         instance = this;
+        sim = simulation;
     }
 
     @Override
     public void mouseClicked(java.awt.event.MouseEvent e) {
         super.mouseClicked(e);
+        sim.onMouseClick(getMousePosition());
+
     }
 
     @Override
     public void mousePressed(java.awt.event.MouseEvent e) {
         super.mousePressed(e);
-        System.out.println("maus geklicjkt");
+        sim.onMousePressed(getMousePosition());
 
 
     }
@@ -37,6 +41,8 @@ public class Mouse extends MouseAdapter{
     @Override
     public void mouseReleased(java.awt.event.MouseEvent e) {
         super.mouseReleased(e);
+        sim.onMouseReleased(getMousePosition());
+
 
     }
 
