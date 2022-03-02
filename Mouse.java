@@ -5,7 +5,7 @@ import MathLib.Vector2;
 
 public class Mouse extends MouseAdapter{
 
-    public Mouse instance;
+    public static Mouse instance;
 
     public Mouse(){
         instance = this;
@@ -19,9 +19,6 @@ public class Mouse extends MouseAdapter{
     @Override
     public void mousePressed(java.awt.event.MouseEvent e) {
         super.mousePressed(e);
-        System.out.println("maus geklicjkt");
-
-
     }
 
     @Override

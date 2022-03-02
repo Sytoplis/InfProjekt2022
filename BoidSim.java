@@ -14,7 +14,7 @@ public class BoidSim extends Simulation {
 
 
     //MOUSE:
-    private final double mouseAvoidance = 0.05;
+    private final double mouseAvoidance = 0.5;
 
 
     public class Boid extends SimOJ {
@@ -189,6 +189,12 @@ public class BoidSim extends Simulation {
     }
 
 
+    @Override
+    public void step(double dt) {
+        if(mouseObstacle.x != 0 || mouseObstacle.y != 0)
+            mouseObstacle = Mouse.instance.getMousePosition();
+        super.step(dt);
+    }
 
     //----------------------- MOUSE --------------------------------
     Vector2 mouseObstacle = Vector2.zero();
@@ -196,6 +202,7 @@ public class BoidSim extends Simulation {
     public void onMousePressed(Vector2 pos) {
         super.onMousePressed(pos);
         mouseObstacle = pos;
+        System.out.println("set force");
     }
     @Override
     public void onMouseReleased(Vector2 pos) {
