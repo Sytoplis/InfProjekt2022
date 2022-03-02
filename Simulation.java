@@ -103,7 +103,7 @@ public class Simulation{
             simOJs[i] = createSimOJ(initAnim[i], i);
         }
 
-        grid = new Grid(10, 10, simOJs);
+        grid = new Grid(25, 25, simOJs);
         gridCellSize = new Vector2(width / grid.getWidth(), height / grid.getHeight());
         invCellSize = new Vector2(1 / gridCellSize.x, 1 / gridCellSize.y);
         grid.UpdateGrid(simOJs);
