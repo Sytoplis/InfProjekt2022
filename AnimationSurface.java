@@ -10,7 +10,7 @@ public class AnimationSurface extends JPanel {
     private Inputs input = new Inputs();
     private boolean paused;
     private Simulation sim;
-    private Mouse mouse;
+    private Mouse mouse = new Mouse();
     private long deltaTime;
     private int boidSize;
     private JSlider animationspeed;
@@ -200,7 +200,6 @@ public class AnimationSurface extends JPanel {
 
         sim = new BoidSim(objects, frame.getWidth(), frame.getHeight(), 4);
 
-       mouse = new Mouse(sim);
 
     }
 
