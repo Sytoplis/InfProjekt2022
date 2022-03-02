@@ -200,6 +200,7 @@ public class AnimationSurface extends JPanel {
 
         sim = new BoidSim(objects, frame.getWidth(), frame.getHeight(), 4);
         mouse = new Mouse(sim);
+        frame.addMouseListener(mouse);
 
 
     }
