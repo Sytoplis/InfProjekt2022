@@ -24,7 +24,7 @@ public class Simulation{
 
     //keep ojs from leaving screen
     protected final double margin = 100;
-    //private final double turnFactor = 5;
+    private final double turnFactor = 5;
 
     public class SimOJ{
 
@@ -54,8 +54,8 @@ public class Simulation{
         public void applyStep(double dt){//update position based on velocity
             keepWithinBounds(dt);
 
-            //getVel().clamp(-maxSpeed, maxSpeed);//fast square clamp
-            getVel().clamp(maxSpeed);//slow circle clamp
+            getVel().clamp(-maxSpeed, maxSpeed);//fast square clamp
+            //getVel().clamp(maxSpeed);//slow circle clamp
 
             getPos().x += getVel().x * dt;//new pos = old pos + vel * dt
             getPos().y += getVel().y * dt;//new pos = old pos + vel * dt
@@ -65,13 +65,13 @@ public class Simulation{
 
         private void keepWithinBounds(double dt) {
             Vector2 v = getVel();
-            /*
+            
              if(getPos().x < margin) v.x += turnFactor * dt;
              if(getPos().x > size.x - margin)v.x -= turnFactor * dt;
              if(getPos().y < margin) v.y += turnFactor * dt;
              if(getPos().y > size.y - margin)v.y -= turnFactor * dt;
-             */
-
+             
+            /*
             if (getPos().x < margin)
                 v.x *= -1;
             if (getPos().x > size.x - margin)
@@ -79,7 +79,7 @@ public class Simulation{
             if (getPos().y < margin)
                 v.y *= -1;
             if (getPos().y > size.y - margin)
-                v.y *= -1;
+                v.y *= -1;*/
         }
 
         //--------------------- SPACIAL HASHING --------------------------------------------

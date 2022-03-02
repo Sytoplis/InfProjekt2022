@@ -235,13 +235,13 @@ public class AnimationSurface extends JPanel {
                 try {
                     Thread.sleep(deltaTime);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                 }
             } else {
                 try {
                     Thread.sleep(20);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                 }
             }
 
