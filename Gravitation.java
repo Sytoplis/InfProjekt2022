@@ -1,11 +1,16 @@
 public class Gravitation extends Simulation{
 
     public class GravityOJ extends SimOJ{
-
         public GravityOJ(AnimationObject animOJ, int id) {
             super(animOJ, id, 5);// initSpeed 5
         }
 
+        @Override
+        public void step(double dt) {
+            
+
+            super.step(dt);
+        }
     }
 
     @Override
