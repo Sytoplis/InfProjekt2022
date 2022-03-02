@@ -17,6 +17,7 @@ public class AnimationSurface extends JPanel {
     public JSlider cohesion;
     public JSlider seperation;
     public JSlider alignment;
+    public JSlider mouseforce;
 
     AnimationObject[] objects;
 
@@ -96,7 +97,7 @@ public class AnimationSurface extends JPanel {
         cohesionLabel.setBounds(490, frame.getHeight() - 75, 100, 60);
         add(cohesionLabel);
 
-        cohesion = new JSlider(JSlider.HORIZONTAL, 0, 50, 5);
+         cohesion = new JSlider(JSlider.HORIZONTAL, 0, 50, 5);
         cohesion.setMajorTickSpacing(5);
         cohesion.setMinorTickSpacing(1);
         cohesion.setBounds(590, frame.getHeight() - 75, 250, 60);
@@ -116,7 +117,7 @@ public class AnimationSurface extends JPanel {
         seperationLabel.setBounds(970, frame.getHeight() - 75, 100, 60);
         add(seperationLabel);
 
-        seperation = new JSlider(JSlider.HORIZONTAL, 0, 500, 50);
+         seperation = new JSlider(JSlider.HORIZONTAL, 0, 500, 50);
         seperation.setMajorTickSpacing(50);
         seperation.setMinorTickSpacing(10);
         seperation.setBounds(1070, frame.getHeight() - 75, 250, 60);
@@ -136,7 +137,7 @@ public class AnimationSurface extends JPanel {
         alignmentLabel.setBounds(1450, frame.getHeight() - 75, 100, 60);
         add(alignmentLabel);
 
-        alignment = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
+         alignment = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
         alignment.setMajorTickSpacing(10);
         alignment.setMinorTickSpacing(2);
         alignment.setBounds(1560, frame.getHeight() - 75, 250, 60);
@@ -150,6 +151,26 @@ public class AnimationSurface extends JPanel {
         alignment.setFocusable(false);
         alignment.setBackground(new Color(201, 234, 255));
         add(alignment);
+
+        JLabel mouseLabel = new JLabel();
+        alignmentLabel.setText("Mausstärke");
+        alignmentLabel.setBounds(1450, frame.getHeight() - 75, 100, 60);
+        //add(alignmentLabel);
+    
+         mouseforce = new JSlider(JSlider.HORIZONTAL, 0, 50, 5);
+        mouseforce.setMajorTickSpacing(10);
+        mouseforce.setMinorTickSpacing(2);
+        mouseforce.setBounds(1560, frame.getHeight() - 75, 250, 60);
+        Hashtable mouseforceTable = new Hashtable();
+        mouseforceTable.put(10, mark);
+        mouseforceTable.put(0, new JLabel("0x"));
+        mouseforceTable.put(100, new JLabel("10x"));
+        mouseforce.setLabelTable(alignmentTable);
+        mouseforce.setPaintLabels(true);
+        mouseforce.setPaintTicks(true);
+        mouseforce.setFocusable(false);
+        mouseforce.setBackground(new Color(201, 234, 255));
+       // add(mouseforce);
 
     }
 
@@ -235,13 +256,13 @@ public class AnimationSurface extends JPanel {
                 try {
                     Thread.sleep(deltaTime);
                 } catch (InterruptedException e) {
-                    //e.printStackTrace();
+                    e.printStackTrace();
                 }
             } else {
                 try {
                     Thread.sleep(20);
                 } catch (InterruptedException e) {
-                    //e.printStackTrace();
+                    e.printStackTrace();
                 }
             }
 
