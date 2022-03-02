@@ -135,8 +135,8 @@ public class Simulation{
                 threads[t].join(0);//make all threads end again
         }catch(Exception e){}
 
-
-        //CREATE THE SECOND THREADS
+        
+        //CREATE THE SECOND THREADS (apply step)
         i = 0;
         for(int t = 0; t < threadCount; t++){
             int end = i+threadOJs;
@@ -162,6 +162,12 @@ public class Simulation{
             threads[t].start();
             i += threadOJs;
         }
+
+        //END THE THREADS (again)
+        try{
+            for(int t = 0; t < threadCount; t++)
+                threads[t].join(0);//make all threads end again
+        }catch(Exception e){}
 
         grid.UpdateGrid(simOJs);
     }
