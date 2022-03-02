@@ -141,7 +141,7 @@ public class Main {
         rangeinput.setVisible(true);
         rangeinput.setText("1000");
         rangeinput.setToolTipText(
-                "Hier eine Zahl von 1 bis 100000 (Einhundertausend) eingeben. \n Zum Bestätigen Enter drücken!");
+                "Hier eine Zahl von 1 bis 1000000 (Einhundertausend) eingeben. \n Zum Bestätigen Enter drücken!");
         chooseobjectcount.add(rangeinput);
 
         JButton select = new JButton("Bestätigen");
