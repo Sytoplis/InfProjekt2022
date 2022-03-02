@@ -47,6 +47,9 @@ public class Vector2
     {   
         return Math.sqrt(x*x + y*y);
     }
+    public double sqrLen(){
+        return x*x + y*y;
+    }
 
     public double dist(Vector2 b)
     {
@@ -89,6 +92,11 @@ public class Vector2
         return this;
     }
 
+    public Vector2 clamp(double length){
+        if(sqrLen() > length*length)
+            normalize().mul(length);
+        return this;
+    }
 
     @Override
     public String toString(){

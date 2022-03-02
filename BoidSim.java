@@ -4,7 +4,7 @@ import MathLib.MathLib;
 public class BoidSim extends Simulation {
 
     private final double margin = 100;
-    private final double turnFactor = 5;
+    //private final double turnFactor = 5;
 
     private final double visualRad = 150;// used for cohesion and alignment
     private double cohesionStrength = 0.005;
@@ -12,15 +12,15 @@ public class BoidSim extends Simulation {
     private double seperationStrength = 0.05;// usually greater than cohesion strength
     private double alignmentStrength = 0.01;
 
+
+    //MOUSE:
+    private final double mouseAvoidance = 0.05;
+
+
     public class Boid extends SimOJ {
         public Boid(AnimationObject animOJ, int id) {
             super(animOJ, id, 5);// initSpeed 5
-            setPos(new Vector2(MathLib.rnd(margin, size.x - margin), MathLib.rnd(margin, size.y - margin)));// update
-                                                                                                            // position
-                                                                                                            // to not
-                                                                                                            // spawn in
-                                                                                                            // the
-                                                                                                            // border
+            setPos(new Vector2(MathLib.rnd(margin, size.x - margin), MathLib.rnd(margin, size.y - margin)));// update position to not spawn in the border
         }
 
         @Override
@@ -39,6 +39,7 @@ public class BoidSim extends Simulation {
             alignmentStrength = tempalignment / 1000;
 
             CompForces(dt);
+            AvoidMouse(dt);
 
             super.step(dt);
         }
@@ -46,10 +47,10 @@ public class BoidSim extends Simulation {
         private void keepWithinBounds(double dt) {
             Vector2 v = getVel();
             /*
-             * if(getPos().x < margin) v.x += turnFactor * dt;
-             * if(getPos().x > size.x - margin)v.x -= turnFactor * dt;
-             * if(getPos().y < margin) v.y += turnFactor * dt;
-             * if(getPos().y > size.y - margin)v.y -= turnFactor * dt;
+             if(getPos().x < margin) v.x += turnFactor * dt;
+             if(getPos().x > size.x - margin)v.x -= turnFactor * dt;
+             if(getPos().y < margin) v.y += turnFactor * dt;
+             if(getPos().y > size.y - margin)v.y -= turnFactor * dt;
              */
 
             if (getPos().x < margin)
@@ -110,8 +111,7 @@ public class BoidSim extends Simulation {
          * }
          */
 
-        // ---------------------------------THE FAST AND COMPLICATED ALGORITHM (runs for
-        // all boids worst case: O(n²), avrg case: O(n))
+        // ---------------------------------THE FAST AND COMPLICATED ALGORITHM (runs for all boids worst case: O(n²), avrg case: O(n))
         private void CompForces(double dt) {
             double sqrDist = 0;// allocate memory for sqr distance for faster usage
             Vector2 pos = getPos();
@@ -165,6 +165,18 @@ public class BoidSim extends Simulation {
 
             getVel().add(avrgCohPos).add(avrgSepPos).add(avrgVel);
         }
+
+        private void AvoidMouse(double dt){
+            if(mouseObstacle.x == 0 && mouseObstacle.y == 0)
+                return;
+
+            if(getPos().sqrDist(mouseObstacle) <= visualRad){
+                Vector2 mouseForce = new Vector2(mouseObstacle);
+                mouseForce.sub(getPos());
+                mouseForce.mul(dt * -mouseAvoidance);
+                getVel().add(mouseForce);
+            }
+        }
     }
 
     @Override
@@ -174,5 +186,20 @@ public class BoidSim extends Simulation {
 
     public BoidSim(AnimationObject[] initAnim, double width, double height, int threadCount) {
         super(initAnim, width, height, threadCount);
+    }
+
+
+
+    //----------------------- MOUSE --------------------------------
+    Vector2 mouseObstacle = Vector2.zero();
+    @Override
+    public void onMousePressed(Vector2 pos) {
+        super.onMousePressed(pos);
+        mouseObstacle = pos;
+    }
+    @Override
+    public void onMouseReleased(Vector2 pos) {
+        super.onMouseReleased(pos);
+        mouseObstacle = Vector2.zero();
     }
 }

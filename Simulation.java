@@ -48,7 +48,8 @@ public class Simulation{
         }
 
         public void applyStep(double dt){//update position based on velocity
-            getVel().clamp(-maxSpeed, maxSpeed);
+            //getVel().clamp(-maxSpeed, maxSpeed);//fast square clamp
+            getVel().clamp(maxSpeed);//slow circle clamp
 
             getPos().x += getVel().x * dt;//new pos = old pos + vel * dt
             getPos().y += getVel().y * dt;//new pos = old pos + vel * dt
