@@ -3,8 +3,7 @@ import MathLib.MathLib;
 
 public class BoidSim extends Simulation {
 
-    private final double margin = 100;
-    //private final double turnFactor = 5;
+    
 
     private final double visualRad = 150;// used for cohesion and alignment
     private double cohesionStrength = 0.005;
@@ -14,7 +13,7 @@ public class BoidSim extends Simulation {
 
 
     //MOUSE:
-    private final double mouseAvoidance = 0.5;
+    private final double mouseAvoidance = 0.1;
 
 
     public class Boid extends SimOJ {
@@ -25,7 +24,6 @@ public class BoidSim extends Simulation {
 
         @Override
         public void step(double dt) {
-            keepWithinBounds(dt);
             // ForceToAvrgPos(dt, visualRad, cohesionStrength);//cohesion force
             // ForceToAvrgPos(dt, seperationRad, -seperationStrength);//seperation force
             // (negative -> repulsion)
@@ -42,25 +40,6 @@ public class BoidSim extends Simulation {
             AvoidMouse(dt);
 
             super.step(dt);
-        }
-
-        private void keepWithinBounds(double dt) {
-            Vector2 v = getVel();
-            /*
-             if(getPos().x < margin) v.x += turnFactor * dt;
-             if(getPos().x > size.x - margin)v.x -= turnFactor * dt;
-             if(getPos().y < margin) v.y += turnFactor * dt;
-             if(getPos().y > size.y - margin)v.y -= turnFactor * dt;
-             */
-
-            if (getPos().x < margin)
-                v.x *= -1;
-            if (getPos().x > size.x - margin)
-                v.x *= -1;
-            if (getPos().y < margin)
-                v.y *= -1;
-            if (getPos().y > size.y - margin)
-                v.y *= -1;
         }
 
         // ---------------------------------THE SLOW, BUT EASY TO UNDERSTAND ALGORITHM
