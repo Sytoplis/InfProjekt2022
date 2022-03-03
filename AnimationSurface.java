@@ -22,6 +22,7 @@ public class AnimationSurface extends JPanel {
     AnimationObject[] objects;
 
     public AnimationSurface(String simulationType, int objectcount) {
+
         super();
         instance = this;
         buildFrame(simulationType, objectcount);
@@ -45,10 +46,10 @@ public class AnimationSurface extends JPanel {
         createAnimationObjects(objectcount);// create objects
         setBackground(new Color(201, 234, 255));
         frame.add(this);
-        
-        if(simulationType.equals("Boids")){
+
+        if (simulationType.equals("Boids")) {
             buildBoidFrame();
-        }else if(simulationType.equals("Gravitation")){
+        } else if (simulationType.equals("Gravitation")) {
             buildGravitationFrame();
         }
 
@@ -68,19 +69,20 @@ public class AnimationSurface extends JPanel {
         runSimulation();
     }
 
-    public void buildBoidFrame(){
+    public void buildBoidFrame() {
         JLabel mark = new JLabel("I");
         mark.setForeground(Color.red);
 
         JLabel animationLabel = new JLabel();
-        animationLabel.setText("Geschwindigkeit");
-        animationLabel.setBounds(10, frame.getHeight() - 75, 100, 60);
+        animationLabel.setHorizontalAlignment(JLabel.CENTER);
+        animationLabel.setText("Tempo");
+        animationLabel.setBounds(10, frame.getHeight() - 75, 90, 60);
         add(animationLabel);
 
         animationspeed = new JSlider(JSlider.HORIZONTAL, 0, 80, 20);
         animationspeed.setMajorTickSpacing(20);
         animationspeed.setMinorTickSpacing(5);
-        animationspeed.setBounds(110, frame.getHeight() - 75, 250, 60);
+        animationspeed.setBounds(100, frame.getHeight() - 75, 250, 60);
         Hashtable animspeedTable = new Hashtable();
         animspeedTable.put(20, mark);
         animspeedTable.put(0, new JLabel("0x"));
@@ -89,18 +91,18 @@ public class AnimationSurface extends JPanel {
         animationspeed.setPaintLabels(true);
         animationspeed.setPaintTicks(true);
         animationspeed.setFocusable(false);
-        animationspeed.setBackground(new Color(201, 234, 255));
+        animationspeed.setBackground(new Color(181, 214, 235));
         add(animationspeed);
 
         JLabel cohesionLabel = new JLabel();
         cohesionLabel.setText("Zusammenhalt");
-        cohesionLabel.setBounds(490, frame.getHeight() - 75, 100, 60);
+        cohesionLabel.setBounds(394, frame.getHeight() - 75, 90, 60);
         add(cohesionLabel);
 
-         cohesion = new JSlider(JSlider.HORIZONTAL, 0, 50, 5);
+        cohesion = new JSlider(JSlider.HORIZONTAL, 0, 50, 5);
         cohesion.setMajorTickSpacing(5);
         cohesion.setMinorTickSpacing(1);
-        cohesion.setBounds(590, frame.getHeight() - 75, 250, 60);
+        cohesion.setBounds(484, frame.getHeight() - 75, 250, 60);
         Hashtable cohesionTable = new Hashtable();
         cohesionTable.put(5, mark);
         cohesionTable.put(0, new JLabel("0x"));
@@ -109,18 +111,18 @@ public class AnimationSurface extends JPanel {
         cohesion.setPaintLabels(true);
         cohesion.setPaintTicks(true);
         cohesion.setFocusable(false);
-        cohesion.setBackground(new Color(201, 234, 255));
+        cohesion.setBackground(new Color(181, 214, 235));
         add(cohesion);
 
         JLabel seperationLabel = new JLabel();
         seperationLabel.setText("Trennung");
-        seperationLabel.setBounds(970, frame.getHeight() - 75, 100, 60);
+        seperationLabel.setBounds(778, frame.getHeight() - 75, 90, 60);
         add(seperationLabel);
 
-         seperation = new JSlider(JSlider.HORIZONTAL, 0, 500, 50);
+        seperation = new JSlider(JSlider.HORIZONTAL, 0, 500, 50);
         seperation.setMajorTickSpacing(50);
         seperation.setMinorTickSpacing(10);
-        seperation.setBounds(1070, frame.getHeight() - 75, 250, 60);
+        seperation.setBounds(868, frame.getHeight() - 75, 250, 60);
         Hashtable seperationTable = new Hashtable();
         seperationTable.put(50, mark);
         seperationTable.put(0, new JLabel("0x"));
@@ -129,18 +131,18 @@ public class AnimationSurface extends JPanel {
         seperation.setPaintLabels(true);
         seperation.setPaintTicks(true);
         seperation.setFocusable(false);
-        seperation.setBackground(new Color(201, 234, 255));
+        seperation.setBackground(new Color(181, 214, 235));
         add(seperation);
 
         JLabel alignmentLabel = new JLabel();
         alignmentLabel.setText("Angleichung");
-        alignmentLabel.setBounds(1450, frame.getHeight() - 75, 100, 60);
+        alignmentLabel.setBounds(1162, frame.getHeight() - 75, 90, 60);
         add(alignmentLabel);
 
-         alignment = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
+        alignment = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
         alignment.setMajorTickSpacing(10);
         alignment.setMinorTickSpacing(2);
-        alignment.setBounds(1560, frame.getHeight() - 75, 250, 60);
+        alignment.setBounds(1252, frame.getHeight() - 75, 250, 60);
         Hashtable alignmentTable = new Hashtable();
         alignmentTable.put(10, mark);
         alignmentTable.put(0, new JLabel("0x"));
@@ -149,38 +151,34 @@ public class AnimationSurface extends JPanel {
         alignment.setPaintLabels(true);
         alignment.setPaintTicks(true);
         alignment.setFocusable(false);
-        alignment.setBackground(new Color(201, 234, 255));
+        alignment.setBackground(new Color(181, 214, 235));
         add(alignment);
 
         JLabel mouseLabel = new JLabel();
-        alignmentLabel.setText("Mausstärke");
-        alignmentLabel.setBounds(1450, frame.getHeight() - 75, 100, 60);
-        //add(alignmentLabel);
-    
-         mouseforce = new JSlider(JSlider.HORIZONTAL, 0, 50, 5);
-        mouseforce.setMajorTickSpacing(10);
-        mouseforce.setMinorTickSpacing(2);
-        mouseforce.setBounds(1560, frame.getHeight() - 75, 250, 60);
+        mouseLabel.setText("Mausstärke");
+        mouseLabel.setBounds(1546, frame.getHeight() - 75, 90, 60);
+        add(mouseLabel);
+
+        mouseforce = new JSlider(JSlider.HORIZONTAL, 0, 5000, 500);
+        mouseforce.setMajorTickSpacing(500);
+        mouseforce.setMinorTickSpacing(100);
+        mouseforce.setBounds(1636, frame.getHeight() - 75, 250, 60);
         Hashtable mouseforceTable = new Hashtable();
-        mouseforceTable.put(10, mark);
+        mouseforceTable.put(500, mark);
         mouseforceTable.put(0, new JLabel("0x"));
-        mouseforceTable.put(100, new JLabel("10x"));
-        mouseforce.setLabelTable(alignmentTable);
+        mouseforceTable.put(5000, new JLabel("10x"));
+        mouseforce.setLabelTable(mouseforceTable);
         mouseforce.setPaintLabels(true);
         mouseforce.setPaintTicks(true);
         mouseforce.setFocusable(false);
-        mouseforce.setBackground(new Color(201, 234, 255));
-       // add(mouseforce);
+        mouseforce.setBackground(new Color(181, 214, 235));
+        add(mouseforce);
 
     }
 
-    public void buildGravitationFrame(){
-
+    public void buildGravitationFrame() {
 
     }
-
-
-
 
     public void createAnimationObjects(int objectcount) {
 
@@ -223,7 +221,6 @@ public class AnimationSurface extends JPanel {
         mouse = new Mouse(sim);
         frame.addMouseListener(mouse);
 
-
     }
 
     @Override
@@ -249,7 +246,7 @@ public class AnimationSurface extends JPanel {
             if (!paused) {
                 if (animationspeed.getValue() > 0)
                     deltaTime = 60 / animationspeed.getValue();
-                else 
+                else
                     deltaTime = 800;
 
                 frame.repaint();

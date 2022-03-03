@@ -3,23 +3,20 @@ import MathLib.MathLib;
 
 public class BoidSim extends Simulation {
 
-    
-
     private final double visualRad = 150;// used for cohesion and alignment
     private double cohesionStrength = 0.005;
     private final double seperationRad = 20;// usually smaller than cohesion rad
     private double seperationStrength = 0.05;// usually greater than cohesion strength
     private double alignmentStrength = 0.01;
 
-
-    //MOUSE:
-    private final double mouseAvoidance = 0.5;
-
+    // MOUSE:
+    private double mouseAvoidance = 0.5;
 
     public class Boid extends SimOJ {
         public Boid(AnimationObject animOJ, int id) {
             super(animOJ, id, 5);// initSpeed 5
-            setPos(new Vector2(MathLib.rnd(margin, size.x - margin), MathLib.rnd(margin, size.y - margin)));// update position to not spawn in the border
+            setPos(new Vector2(MathLib.rnd(margin, size.x - margin), MathLib.rnd(margin, size.y - margin)));
+            // update position to not spawn in the border
         }
 
         @Override
@@ -32,9 +29,11 @@ public class BoidSim extends Simulation {
             double tempcohesion = AnimationSurface.instance.cohesion.getValue();
             double tempseperation = AnimationSurface.instance.seperation.getValue();
             double tempalignment = AnimationSurface.instance.alignment.getValue();
+            double tempavoidance = AnimationSurface.instance.alignment.getValue();
             cohesionStrength = tempcohesion / 1000;
             seperationStrength = tempseperation / 1000;
             alignmentStrength = tempalignment / 1000;
+            mouseAvoidance = tempavoidance / 1000;
 
             CompForces(dt);
             AvoidMouse(dt);
@@ -90,7 +89,8 @@ public class BoidSim extends Simulation {
          * }
          */
 
-        // ---------------------------------THE FAST AND COMPLICATED ALGORITHM (runs for all boids worst case: O(n²), avrg case: O(n))
+        // ---------------------------------THE FAST AND COMPLICATED ALGORITHM (runs for
+        // all boids worst case: O(n²), avrg case: O(n))
         private void CompForces(double dt) {
             double sqrDist = 0;// allocate memory for sqr distance for faster usage
             Vector2 pos = getPos();
@@ -145,11 +145,11 @@ public class BoidSim extends Simulation {
             getVel().add(avrgCohPos).add(avrgSepPos).add(avrgVel);
         }
 
-        private void AvoidMouse(double dt){
-            if(mouseObstacle.x == 0 && mouseObstacle.y == 0)
+        private void AvoidMouse(double dt) {
+            if (mouseObstacle.x == 0 && mouseObstacle.y == 0)
                 return;
 
-            if(getPos().sqrDist(mouseObstacle) <= visualRad*visualRad){
+            if (getPos().sqrDist(mouseObstacle) <= visualRad * visualRad) {
                 Vector2 mouseForce = new Vector2(mouseObstacle);
                 mouseForce.sub(getPos());
                 mouseForce.mul(dt * -mouseAvoidance);
@@ -167,21 +167,22 @@ public class BoidSim extends Simulation {
         super(initAnim, width, height, threadCount);
     }
 
-
     @Override
     public void step(double dt) {
-        if(mouseObstacle.x != 0 || mouseObstacle.y != 0)
+        if (mouseObstacle.x != 0 || mouseObstacle.y != 0)
             mouseObstacle = Mouse.instance.getMousePosition();
         super.step(dt);
     }
 
-    //----------------------- MOUSE --------------------------------
+    // ----------------------- MOUSE --------------------------------
     Vector2 mouseObstacle = Vector2.zero();
+
     @Override
     public void onMousePressed(Vector2 pos) {
         super.onMousePressed(pos);
         mouseObstacle = pos;
     }
+
     @Override
     public void onMouseReleased(Vector2 pos) {
         super.onMouseReleased(pos);
