@@ -26,6 +26,8 @@ public class Simulation{
     protected final double margin = 100;
     private final double turnFactor = 5;
 
+    private boolean keepInBound = false;
+
     public class SimOJ{
 
         //---------------------- ANIMATION INTERFACE ---------------------------------
@@ -52,7 +54,9 @@ public class Simulation{
         }
 
         public void applyStep(double dt){//update position based on velocity
-            keepWithinBounds(dt);
+            if(keepInBound)
+                keepWithinBounds(dt);
+            
 
             getVel().clamp(-maxSpeed, maxSpeed);//fast square clamp
             //getVel().clamp(maxSpeed);//slow circle clamp
@@ -60,7 +64,10 @@ public class Simulation{
             getPos().x += getVel().x * dt;//new pos = old pos + vel * dt
             getPos().y += getVel().y * dt;//new pos = old pos + vel * dt
 
-            getPos().clamp(boundMin, boundMax);//clamp position into screensize
+            if(keepInBound)
+                getPos().clamp(boundMin, boundMax);//clamp position into screensize
+            else
+                ModuloPosition();
         }
 
         private void keepWithinBounds(double dt) {
@@ -80,6 +87,12 @@ public class Simulation{
                 v.y *= -1;
             if (getPos().y > size.y - margin)
                 v.y *= -1;*/
+        } 
+
+        private void ModuloPosition(){
+            getPos().add(size);
+            getPos().x %= size.x;
+            getPos().y %= size.y;
         }
 
         //--------------------- SPACIAL HASHING --------------------------------------------
