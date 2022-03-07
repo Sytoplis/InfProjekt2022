@@ -26,6 +26,7 @@ public class GridSim extends Simulation{
 
         simOJs = new SimOJ[super.simOJs.length];
         for(int i = 0; i < simOJs.length; i++) simOJs[i] = (SimOJ)super.simOJs[i];// convert to the grid SimOjs
+        super.simOJs = simOJs;//make the backwards reference
 
         grid = new Grid(25, 25, simOJs);
         gridCellSize = new Vector2(width / grid.getWidth(), height / grid.getHeight());

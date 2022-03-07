@@ -2,11 +2,11 @@ import MathLib.Vector2;
 
 public class GravSim extends Simulation{
 
-    private double gravitationalConstant = 1;
+    private double gravitationalConstant = 10;
     private double gravRad = 80;
 
     public class GravityOJ extends SimOJ{
-        public double mass;
+        public double mass = 1;
 
         public GravityOJ(AnimationObject animOJ, int id) {
             super(animOJ, id, 5);// initSpeed 5
