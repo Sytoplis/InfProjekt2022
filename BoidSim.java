@@ -1,7 +1,7 @@
 import MathLib.Vector2;
 import MathLib.MathLib;
 
-public class BoidSim extends Simulation {
+public class BoidSim extends GridSim {
 
     private final double visualRad = 150;// used for cohesion and alignment
     private double cohesionStrength = 0.005;
@@ -159,7 +159,7 @@ public class BoidSim extends Simulation {
     }
 
     @Override
-    public Simulation.SimOJ createSimOJ(AnimationObject animOJ, int id) {
+    public GridSim.SimOJ createSimOJ(AnimationObject animOJ, int id) {
         return new Boid(animOJ, id);
     }// use boid as the standard simoj
 

@@ -12,7 +12,7 @@ public class Grid {
 
     private int[] gridIndices;//length -> oj count
 
-    public Grid(int width, int height, Simulation.SimOJ[] ojs){
+    public Grid(int width, int height, GridSim.SimOJ[] ojs){
         this.width = width;
         this.height = height;
         cellCount = width * height;
@@ -25,7 +25,7 @@ public class Grid {
         //UpdateGrid(ojs);
     }
 
-    public void UpdateGrid(Simulation.SimOJ[] ojs){//UPDATES THE ENTIRE GRID    (complexity: O(n) )
+    public void UpdateGrid(GridSim.SimOJ[] ojs){//UPDATES THE ENTIRE GRID    (complexity: O(n) )
 
         cellLength = new int[cellCount];//reset cellLength to 0
         for(int i = 0; i < ojs.length; i++){//get the count of each cell

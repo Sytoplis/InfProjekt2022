@@ -98,6 +98,13 @@ public class Vector2
         return this;
     }
 
+
+    public Vector2 clone(Vector2 vec){
+        this.x = vec.x;
+        this.y = vec.y;
+        return this;
+    }
+
     @Override
     public String toString(){
         return String.valueOf(x) + " ; " + String.valueOf(y);

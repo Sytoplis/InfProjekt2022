@@ -1,6 +1,6 @@
 import MathLib.Vector2;
-
 import MathLib.MathLib;
+
 
 public class Simulation{
 
@@ -14,10 +14,6 @@ public class Simulation{
     public Vector2 boundMax;
 
     public double maxSpeed = 15;
-
-    public Grid grid;
-    public Vector2 gridCellSize;
-    private Vector2 invCellSize;
 
     private int threadCount;
     private int threadOJs;
@@ -94,11 +90,6 @@ public class Simulation{
             getPos().x %= size.x;
             getPos().y %= size.y;
         }
-
-        //--------------------- SPACIAL HASHING --------------------------------------------
-        int gridID = 0;
-        public void RecomputeGridID(){ gridID = (int)(getPos().x*invCellSize.x) + (int)(getPos().y*invCellSize.y)*grid.getWidth(); }//  pos / cellsize = gridPos;    posX + posY * width = index
-        public int getGridX() { return gridID % grid.getWidth(); }
         
     }
 
@@ -115,12 +106,6 @@ public class Simulation{
         for(int i = 0; i < initAnim.length; i++){//loads all animation objects into the simulation
             simOJs[i] = createSimOJ(initAnim[i], i);
         }
-
-        grid = new Grid(25, 25, simOJs);
-        gridCellSize = new Vector2(width / grid.getWidth(), height / grid.getHeight());
-        invCellSize = new Vector2(1 / gridCellSize.x, 1 / gridCellSize.y);
-        grid.UpdateGrid(simOJs);
-
 
         this.threadCount = threadCount;
         threadOJs = simOJs.length / threadCount;
@@ -207,8 +192,6 @@ public class Simulation{
             for(int t = 0; t < threadCount; t++)
                 threads[t].join(0);//make all threads end again
         }catch(Exception e){}
-
-        grid.UpdateGrid(simOJs);
     }
 
 
