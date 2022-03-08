@@ -2,7 +2,7 @@ import MathLib.Vector2;
 
 public class GravSim extends Simulation{
 
-    private double gravitationalConstant = 10;
+    private final double gravitationalConstant = 10;
     private double gravRad = 80;
 
     public class GravityOJ extends SimOJ{
@@ -14,6 +14,10 @@ public class GravSim extends Simulation{
 
         @Override
         public void step(double dt) {
+           double tempmass = AnimationSurface.instance.Slider1.getValue();
+           mass = tempmass/ 10; 
+           double tempgravRad = AnimationSurface.instance.Slider2.getValue();
+           gravRad = tempgravRad/10;
             CompGravity(dt);
             super.step(dt);
         }

@@ -26,8 +26,8 @@ public class BoidSim extends GridSim {
             // (negative -> repulsion)
             // AvrgVel(dt, visualRad, alignmentStrength);//alignment force
 
-            double tempcohesion = AnimationSurface.instance.cohesion.getValue();
-            double tempseperation = AnimationSurface.instance.seperation.getValue();
+            double tempcohesion = AnimationSurface.instance.Slider1.getValue();
+            double tempseperation = AnimationSurface.instance.Slider2.getValue();
             double tempalignment = AnimationSurface.instance.alignment.getValue();
             double tempavoidance = AnimationSurface.instance.alignment.getValue();
             cohesionStrength = tempcohesion / 1000;
