@@ -3,10 +3,10 @@ import java.util.Hashtable;
 import javax.swing.*;
 import MathLib.Vector2;
 
-//Class for the animation surface
+//Class for the animation surface, extending JPanel
 public class AnimationSurface extends JPanel {
 
-    //global variables 
+    // global variables
     private JFrame frame;
     public static AnimationSurface instance;
     private Inputs input = new Inputs();
@@ -22,7 +22,7 @@ public class AnimationSurface extends JPanel {
     public JSlider mouseforce;
     AnimationObject[] objects;
 
-    //contructor, creates an instance and calls the buildframe method
+    // contructor, creates an instance and calls the buildframe method
     public AnimationSurface(String simulationType, int objectcount) {
 
         super();
@@ -31,9 +31,9 @@ public class AnimationSurface extends JPanel {
 
     }
 
-
-    //this builds the frame, depending on the simulationtype and objectcount
+    // this builds the frame, depending on the simulationtype and objectcount
     public void buildFrame(String simulationType, int objectcount) {
+        // Frame gets initiated and properties are set
         frame = new JFrame("Simulation: " + simulationType);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 1,
@@ -45,18 +45,23 @@ public class AnimationSurface extends JPanel {
         frame.addKeyListener(input);
         frame.addMouseListener(mouse);
 
+        // JPanel properties are determined, gets added to frame
         setSize(frame.getWidth(), frame.getHeight());
         setLayout(null);
         createAnimationObjects(objectcount);// create objects
         setBackground(new Color(201, 234, 255));
         frame.add(this);
 
+        // Simulationtype determines which frame is build (which Sliders and commands
+        // are added)
         if (simulationType.equals("Boids")) {
             buildBoidFrame();
         } else if (simulationType.equals("Gravitation")) {
             buildGravitationFrame();
         }
 
+        // as long as the frame is invisible, the Simulation is paused
+        // Gets skipped, when Main class calls startAnimation
         while (!frame.isVisible()) {
             try {
                 Thread.sleep(1);
@@ -64,46 +69,53 @@ public class AnimationSurface extends JPanel {
                 e.getStackTrace();
             }
         }
+        // Frame is now visible, set fullscreen and show the Controls
         toggleFullscreen();
         frame.toFront();
         JOptionPane.showMessageDialog(this,
                 "Press 'ESC' to end the simulation \nPress 'P' to pause the simulation \nPress 'F11' to switch fullscreen mode \nUse the sliders to control simulation parameters",
                 "Controls", JOptionPane.INFORMATION_MESSAGE);
-
+        // Now the timer is started, Simulation starts
         runSimulation();
     }
 
+    // builds the Frame for the boid simulation
     public void buildBoidFrame() {
+        // Red mark for standard value
         JLabel mark = new JLabel("I");
         mark.setForeground(Color.red);
 
+        // calls method to create Slider for animation speed
         setAnimationSpeed(mark);
 
+        // Label is added as title for the slider
         JLabel cohesionLabel = new JLabel();
         cohesionLabel.setText("Cohesion");
         cohesionLabel.setBounds(394, frame.getHeight() - 75, 90, 60);
         add(cohesionLabel);
 
-        Slider1 = new JSlider(JSlider.HORIZONTAL, 0, 50, 5);
-        Slider1.setMajorTickSpacing(5);
+        // now the slider is added, for cohesion
+        Slider1 = new JSlider(JSlider.HORIZONTAL, 0, 50, 5); // Slider range is defined
+        Slider1.setMajorTickSpacing(5); // Major and minor ticks set
         Slider1.setMinorTickSpacing(1);
-        Slider1.setBounds(484, frame.getHeight() - 75, 250, 60);
-        Hashtable cohesionTable = new Hashtable();
-        cohesionTable.put(5, mark);
-        cohesionTable.put(0, new JLabel("0x"));
-        cohesionTable.put(50, new JLabel("10x"));
-        Slider1.setLabelTable(cohesionTable);
-        Slider1.setPaintLabels(true);
+        Slider1.setBounds(484, frame.getHeight() - 75, 250, 60); // Slider position and size set
+        Hashtable cohesionTable = new Hashtable(); // Hashtable for the marks of the Slider
+        cohesionTable.put(5, mark); // Standard value
+        cohesionTable.put(0, new JLabel("0x")); // min value
+        cohesionTable.put(50, new JLabel("10x")); // Max value
+        Slider1.setLabelTable(cohesionTable); // hashtable added to slider
+        Slider1.setPaintLabels(true); // Paint the labels, ticks
         Slider1.setPaintTicks(true);
-        Slider1.setFocusable(false);
-        Slider1.setBackground(new Color(181, 214, 235));
-        add(Slider1);
+        Slider1.setFocusable(false); // Slider may NOT be focusable, so keyshortcuts work properly!!!
+        Slider1.setBackground(new Color(181, 214, 235)); // make Sliders more obvious
+        add(Slider1); // Add Slider to Panel
 
         JLabel seperationLabel = new JLabel();
         seperationLabel.setText("Separation");
         seperationLabel.setBounds(778, frame.getHeight() - 75, 90, 60);
         add(seperationLabel);
 
+        // Same for SLider for seperation
         Slider2 = new JSlider(JSlider.HORIZONTAL, 0, 500, 50);
         Slider2.setMajorTickSpacing(50);
         Slider2.setMinorTickSpacing(10);
@@ -124,6 +136,7 @@ public class AnimationSurface extends JPanel {
         alignmentLabel.setBounds(1162, frame.getHeight() - 75, 90, 60);
         add(alignmentLabel);
 
+        // Same for Slider for alignment
         alignment = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
         alignment.setMajorTickSpacing(10);
         alignment.setMinorTickSpacing(2);
@@ -144,6 +157,7 @@ public class AnimationSurface extends JPanel {
         mouseLabel.setBounds(1546, frame.getHeight() - 75, 90, 60);
         add(mouseLabel);
 
+        // Same for Slider for mouseforce
         mouseforce = new JSlider(JSlider.HORIZONTAL, 0, 5000, 500);
         mouseforce.setMajorTickSpacing(500);
         mouseforce.setMinorTickSpacing(100);
@@ -161,7 +175,12 @@ public class AnimationSurface extends JPanel {
 
     }
 
-    public void buildGravitationFrame( ) {
+    // Builds the gravitationframe, by adidng a SLider for speed, the mass and
+    // radius
+    // refer to GravSim
+    // Principle same as for BoidFrame
+
+    public void buildGravitationFrame() {
         JLabel mark = new JLabel("I");
         mark.setForeground(Color.red);
 
@@ -177,9 +196,9 @@ public class AnimationSurface extends JPanel {
         Slider1.setMinorTickSpacing(2);
         Slider1.setBounds(484, frame.getHeight() - 75, 250, 60);
         Hashtable massTable = new Hashtable();
-        massTable.put(5, mark);
+        massTable.put(10, mark);
         massTable.put(0, new JLabel("0x"));
-        massTable.put(50, new JLabel("10x"));
+        massTable.put(10, new JLabel("10x"));
         Slider1.setLabelTable(massTable);
         Slider1.setPaintLabels(true);
         Slider1.setPaintTicks(true);
@@ -197,9 +216,9 @@ public class AnimationSurface extends JPanel {
         Slider2.setMinorTickSpacing(160);
         Slider2.setBounds(868, frame.getHeight() - 75, 250, 60);
         Hashtable radiusTable = new Hashtable();
-        radiusTable.put(50, mark);
+        radiusTable.put(800, mark);
         radiusTable.put(0, new JLabel("0x"));
-        radiusTable.put(500, new JLabel("10x"));
+        radiusTable.put(8000, new JLabel("10x"));
         Slider2.setLabelTable(radiusTable);
         Slider2.setPaintLabels(true);
         Slider2.setPaintTicks(true);
@@ -209,7 +228,8 @@ public class AnimationSurface extends JPanel {
 
     }
 
-    public void setAnimationSpeed(JLabel mark){
+    // seperate method for the Slider of the animationspeed
+    public void setAnimationSpeed(JLabel mark) {
         JLabel animationLabel = new JLabel();
         animationLabel.setHorizontalAlignment(JLabel.CENTER);
         animationLabel.setText("Speed");
@@ -233,11 +253,14 @@ public class AnimationSurface extends JPanel {
 
     }
 
+    // responsible for creating the animated objects
     public void createAnimationObjects(int objectcount) {
 
         java.util.Random rand = new java.util.Random();
         objects = new AnimationObject[objectcount];
 
+        // USing a random, startingposition and color are determined.
+        // Velocitsy gets set in BoidSim
         for (int i = 0; i < objectcount; i++) {
             objects[i] = new AnimationObject();
             objects[i].setPosition(new Vector2(rand.nextInt((int) getWidth()),
@@ -246,40 +269,47 @@ public class AnimationSurface extends JPanel {
             objects[i].setVelocity(new Vector2(0, 0));
         }
 
-        if (objectcount <= 100000) 
+        // determines the size of the boids in correlation to the amount of them
+        if (objectcount <= 100000)
             boidSize = 3;
-        if (objectcount <= 10000) 
+        if (objectcount <= 10000)
             boidSize = 5;
-        if (objectcount <= 1000) 
+        if (objectcount <= 1000)
             boidSize = 10;
-        if (objectcount <= 100) 
+        if (objectcount <= 100)
             boidSize = 20;
-        if (objectcount <= 100) 
+        if (objectcount <= 100)
             boidSize = 25;
-        if (objectcount <= 50) 
+        if (objectcount <= 50)
             boidSize = 30;
         if (objectcount < 10)
             boidSize = 35;
         deltaTime = 10;
 
-        if(frame.getTitle().contains("Boids"))
+        // Determines the typew of simulation based on the Windowtitle, initiates the
+        // simulation
+        // mouselistener and keylistener are added
+        if (frame.getTitle().contains("Boids"))
             sim = new BoidSim(objects, frame.getWidth(), frame.getHeight(), 4);
-        if(frame.getTitle().contains("Gravitation"))
+        if (frame.getTitle().contains("Gravitation"))
             sim = new GravSim(objects, frame.getWidth(), frame.getHeight(), 4);
         mouse = new Mouse(sim);
         frame.addMouseListener(mouse);
 
     }
 
+    // Responsible for painting the objects in an Override
     @Override
     public void paint(Graphics g) {
 
         super.paint(g);
 
+        // movement and calculations in correlation to the animationspeed
         double tempstep = animationspeed.getValue();
         tempstep = tempstep / 100;
         sim.step(tempstep);
 
+        // each object is drawn individually by accessing position and color
         for (int i = 0; i < objects.length; i++) {
             g.setColor(objects[i].getColor());
             g.fillOval((int) objects[i].getPosition().x - boidSize / 2, (int) objects[i].getPosition().y - boidSize / 2,
@@ -287,21 +317,26 @@ public class AnimationSurface extends JPanel {
         }
     }
 
+    // Responsible for running the simulation
     public void runSimulation() {
 
+        // infinte loop
         while (true) {
             if (!paused) {
+                // Uses the value of the JSlider to determine the delta time
                 if (animationspeed.getValue() > 0)
                     deltaTime = 60 / animationspeed.getValue();
-                else
+                else // Since dividing by zero would give an error
                     deltaTime = 800;
-
+                // Repaints the frame and its objects (updates paint)
                 frame.repaint();
                 try {
                     Thread.sleep(deltaTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                // when paused, the thread sleep in 20ms intervals, checking again wether paused
+                // is true or not
             } else {
                 try {
                     Thread.sleep(20);
@@ -313,15 +348,18 @@ public class AnimationSurface extends JPanel {
         }
     }
 
+    // Starts the simulation by making the frame visible
     public void startSimulation() {
         frame.setVisible(true);
     }
 
+    // ends the simulation by disposing the screen end exiting the machine
     public void endSimulation() {
         frame.dispose();
         System.exit(0);
     }
 
+    // Uses Graphics Driver to toggle fullscreen when called
     public void toggleFullscreen() {
 
         GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -334,6 +372,7 @@ public class AnimationSurface extends JPanel {
         }
     }
 
+    // Pauses the simulation when called
     public void pauseSimulation() {
         paused = !paused;
     }
