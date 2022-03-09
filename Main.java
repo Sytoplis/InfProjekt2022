@@ -29,8 +29,9 @@ public class Main {
         //Create a new temporary (invisible) parent frame
         JFrame temp = new JFrame();
         temp.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //Call a method, creating the 
+        //Call a method, creating the window for the objectount input
         getobjectcount(temp); 
+        //While objectcount has not been assigned a porper value, stay in this loop and do not continue
         while (objectcount == 0) {
             try {
                 Thread.sleep(1);
@@ -40,15 +41,18 @@ public class Main {
             }
         }
 
+        //Create a new thread, responsible for the loading animation
         loading = new Thread(new Runnable() {
             @Override
             public void run() {
                 loadingScreen();
             }
         });
+        //New thread loading is started, Animationsurface is called, starting to initalize the simulation parameters
         loading.start();
         new AnimationSurface(simulationType, objectcount);
 
+        //parent frame tmep is disposed after 4 seconds to avoid errors in window transition
         try {
             Thread.sleep(4000);
         } catch (InterruptedException e) {
@@ -58,9 +62,10 @@ public class Main {
         temp.dispose();
 
     }
-
+    //This creates the loading screen
     public static void loadingScreen() {
 
+        //A new Jframe with its properties is defined
         JFrame loadingframe = new JFrame("");
         loadingframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         loadingframe.setLocationRelativeTo(null);
@@ -70,12 +75,15 @@ public class Main {
         loadingframe.setUndecorated(true);
         loadingframe.setOpacity(0.8f);
 
+        //New Loadingscreen is created (named "component"), and added to the Frame
         LoadingScreen component = new LoadingScreen();
         loadingframe.add(component);
         loadingframe.getContentPane().validate();
         loadingframe.getContentPane().repaint();
         loadingframe.setVisible(true);
 
+        //When the animation has been shown for at least 4.8 seconds, it starts the simulation and disposed itself
+            //unless interrupt has been called
         try {
             Thread.sleep(4800);
         } catch (InterruptedException e) {
@@ -88,6 +96,7 @@ public class Main {
 
     }
 
+    //this defines the objectcount window as a JDialog with all its properties
     public static void getobjectcount(JFrame temp) {
 
         JDialog chooseobjectcount = new JDialog(temp, "Objects");
@@ -116,6 +125,7 @@ public class Main {
         descriptionextrange.setVisible(true);
         chooseobjectcount.add(descriptionextrange);
 
+        //This is the label for the selected value, starting point is 100
         JLabel selectedvalue = new JLabel("100");
         selectedvalue.setBounds(chooseobjectcount.getWidth() / 2 - 50, chooseobjectcount.getHeight() / 2 - 10, 100, 30);
         selectedvalue.setVisible(true);
@@ -125,6 +135,7 @@ public class Main {
                 BorderFactory.createLoweredBevelBorder()));
         chooseobjectcount.add(selectedvalue);
 
+        //This slied lets you choose a value and automatically sets the set value
         JSlider movecount = new JSlider(SwingConstants.HORIZONTAL, 1, 1000, 100);
         movecount.setMajorTickSpacing(200);
         movecount.setMinorTickSpacing(10);
@@ -141,6 +152,7 @@ public class Main {
 
         movecount.setLabelTable(creatHashtable(movecount));
 
+        //Input for a new range, in the beginning set to 1000
         JTextField rangeinput = new JTextField();
         rangeinput.setBounds(260, chooseobjectcount.getHeight() / 2 - 40, 70, 20);
         rangeinput.setVisible(true);
@@ -149,6 +161,7 @@ public class Main {
                 "Please input a number from 1 to 1000000 (Onehundredthousand). \n Press 'enter' to confirm!");
         chooseobjectcount.add(rangeinput);
 
+        //Button sets the global objectcount to the value selected with the slider and then disposes the Dialog 
         JButton select = new JButton("Confirm");
         select.setBounds(chooseobjectcount.getWidth() / 2 - 50, chooseobjectcount.getHeight() - 100, 100, 50);
         select.setBackground(Color.white);
@@ -163,6 +176,9 @@ public class Main {
         select.setVisible(true);
         chooseobjectcount.add(select);
 
+        //Adds a keylistenes to the frame
+        //This keylistener checks, after a key has been pressed, that the numbers are in a valid range
+        //If not, a message is displayed and the value is reset
         KeyListener keyListener = new KeyListener() {
             public void keyPressed(KeyEvent evt) {
                 // no Event
@@ -210,6 +226,8 @@ public class Main {
 
     }
 
+
+    //This method is used to automatically update the hastable displaying the new values, when the rangee has been redefined
     public static Hashtable creatHashtable(JSlider slider) {
 
         Hashtable labelTable = new Hashtable();

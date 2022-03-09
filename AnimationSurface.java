@@ -3,8 +3,10 @@ import java.util.Hashtable;
 import javax.swing.*;
 import MathLib.Vector2;
 
+//Class for the animation surface
 public class AnimationSurface extends JPanel {
 
+    //global variables 
     private JFrame frame;
     public static AnimationSurface instance;
     private Inputs input = new Inputs();
@@ -18,9 +20,9 @@ public class AnimationSurface extends JPanel {
     public JSlider Slider2;
     public JSlider alignment;
     public JSlider mouseforce;
-
     AnimationObject[] objects;
 
+    //contructor, creates an instance and calls the buildframe method
     public AnimationSurface(String simulationType, int objectcount) {
 
         super();
@@ -29,6 +31,8 @@ public class AnimationSurface extends JPanel {
 
     }
 
+
+    //this builds the frame, depending on the simulationtype and objectcount
     public void buildFrame(String simulationType, int objectcount) {
         frame = new JFrame("Simulation: " + simulationType);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
