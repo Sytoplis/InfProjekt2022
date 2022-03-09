@@ -1,31 +1,36 @@
+//IMport necessary imports
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.*;
 import java.util.*;
 import javax.swing.JButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+//Main class
 public class Main {
 
     private static Thread loading;
     private static int objectcount = 0;
 
+    //Main method
     public static void main(String[] args) {
 
+        //Define an Array of type Object to choose the simulationtype in an Optiondialog 
         Object[] choices1 = { "Boids", "Gravitation" };
         String simulationType = (String) choices1[(JOptionPane.showOptionDialog(null,
-                "Bitte Art der Simulation auswählen!",
+                "Please select a simulation!",
                 "Simulation", 0, JOptionPane.QUESTION_MESSAGE, null, choices1,
                 choices1[0]))];
 
+        //Create a new temporary (invisible) parent frame
         JFrame temp = new JFrame();
         temp.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        getobjectcount(temp);
+        //Call a method, creating the 
+        getobjectcount(temp); 
         while (objectcount == 0) {
             try {
                 Thread.sleep(1);
@@ -85,7 +90,7 @@ public class Main {
 
     public static void getobjectcount(JFrame temp) {
 
-        JDialog chooseobjectcount = new JDialog(temp, "Objektzahl");
+        JDialog chooseobjectcount = new JDialog(temp, "Objects");
         chooseobjectcount.setBounds((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2 - 200,
                 (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() / 2 - 150, 400, 260);
         chooseobjectcount.setMinimumSize(chooseobjectcount.getSize());
@@ -95,16 +100,16 @@ public class Main {
         chooseobjectcount.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         JLabel description = new JLabel();
-        description.setText("Bitte Anzahl der Objekte eingeben!");
-        description.setBounds(chooseobjectcount.getWidth() / 2 - 100, 15, 200, 20);
+        description.setText("Please choose a number of objects!");
+        description.setBounds(chooseobjectcount.getWidth() / 2 - 110, 15, 220, 20);
         description.setForeground(Color.black);
         description.setBackground(Color.gray);
         description.setVisible(true);
         chooseobjectcount.add(description);
 
         JLabel descriptionextrange = new JLabel();
-        descriptionextrange.setText("Alternativ einen neuen Bereich festlegen:");
-        descriptionextrange.setBounds(40, chooseobjectcount.getHeight() / 2 - 40,
+        descriptionextrange.setText("You can also define a new range:");
+        descriptionextrange.setBounds(60, chooseobjectcount.getHeight() / 2 - 40,
                 240, 20);
         descriptionextrange.setForeground(Color.black);
         descriptionextrange.setBackground(Color.gray);
@@ -137,14 +142,14 @@ public class Main {
         movecount.setLabelTable(creatHashtable(movecount));
 
         JTextField rangeinput = new JTextField();
-        rangeinput.setBounds(280, chooseobjectcount.getHeight() / 2 - 40, 70, 20);
+        rangeinput.setBounds(260, chooseobjectcount.getHeight() / 2 - 40, 70, 20);
         rangeinput.setVisible(true);
         rangeinput.setText("1000");
         rangeinput.setToolTipText(
-                "Hier eine Zahl von 1 bis 1000000 (Einhundertausend) eingeben. \n Zum Bestätigen Enter drücken!");
+                "Please input a number from 1 to 1000000 (Onehundredthousand). \n Press 'enter' to confirm!");
         chooseobjectcount.add(rangeinput);
 
-        JButton select = new JButton("Bestätigen");
+        JButton select = new JButton("Confirm");
         select.setBounds(chooseobjectcount.getWidth() / 2 - 50, chooseobjectcount.getHeight() - 100, 100, 50);
         select.setBackground(Color.white);
         select.addActionListener(new ActionListener() {
@@ -174,7 +179,7 @@ public class Main {
                     String sze = rangeinput.getText();
                     if (Integer.valueOf(sze) < 1) {
                         rangeinput.setText("1000");
-                        JOptionPane.showMessageDialog(null, "Werte unter 1 sind verboten!", "Ungültige Eingabe",
+                        JOptionPane.showMessageDialog(null, "Values below 1 are forbidden!", "Invalid entry",
                                 JOptionPane.ERROR_MESSAGE);
                         movecount.setMaximum(1000);
                         movecount.setLabelTable(creatHashtable(movecount));
@@ -182,8 +187,8 @@ public class Main {
                     }
                     if (Integer.valueOf(sze) > 100000) {
                         rangeinput.setText("1000");
-                        JOptionPane.showMessageDialog(null, "Werte über 100000 sind verboten!",
-                                "Ungültige Eingabe", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Values over 100000 are forbidden!",
+                                "Invalid entry", JOptionPane.ERROR_MESSAGE);
                         movecount.setMaximum(1000);
                         movecount.setLabelTable(creatHashtable(movecount));
 

@@ -63,8 +63,8 @@ public class AnimationSurface extends JPanel {
         toggleFullscreen();
         frame.toFront();
         JOptionPane.showMessageDialog(this,
-                "Mit 'ESC' kann die Simulation beendet werden \nMit 'P' kann die Simulation pausiert werden \nMit 'F11' kann der Vollbildmodus gewechselt werden \nMit dem Slider kann die Geschwindigkeit angepasst werden",
-                "Hinweise", JOptionPane.INFORMATION_MESSAGE);
+                "Press 'ESC' to end the simulation \nPress 'P' to pause the simulation \nPress 'F11' to switch fullscreen mode \nUse the sliders to control simulation parameters",
+                "Controls", JOptionPane.INFORMATION_MESSAGE);
 
         runSimulation();
     }
@@ -76,7 +76,7 @@ public class AnimationSurface extends JPanel {
         setAnimationSpeed(mark);
 
         JLabel cohesionLabel = new JLabel();
-        cohesionLabel.setText("Zusammenhalt");
+        cohesionLabel.setText("Cohesion");
         cohesionLabel.setBounds(394, frame.getHeight() - 75, 90, 60);
         add(cohesionLabel);
 
@@ -96,7 +96,7 @@ public class AnimationSurface extends JPanel {
         add(Slider1);
 
         JLabel seperationLabel = new JLabel();
-        seperationLabel.setText("Trennung");
+        seperationLabel.setText("Separation");
         seperationLabel.setBounds(778, frame.getHeight() - 75, 90, 60);
         add(seperationLabel);
 
@@ -116,7 +116,7 @@ public class AnimationSurface extends JPanel {
         add(Slider2);
 
         JLabel alignmentLabel = new JLabel();
-        alignmentLabel.setText("Angleichung");
+        alignmentLabel.setText("Alignment");
         alignmentLabel.setBounds(1162, frame.getHeight() - 75, 90, 60);
         add(alignmentLabel);
 
@@ -136,7 +136,7 @@ public class AnimationSurface extends JPanel {
         add(alignment);
 
         JLabel mouseLabel = new JLabel();
-        mouseLabel.setText("Mausstärke");
+        mouseLabel.setText("Mouseforce");
         mouseLabel.setBounds(1546, frame.getHeight() - 75, 90, 60);
         add(mouseLabel);
 
@@ -164,7 +164,7 @@ public class AnimationSurface extends JPanel {
         setAnimationSpeed(mark);
 
         JLabel massLabel = new JLabel();
-        massLabel.setText("Masse");
+        massLabel.setText("Mass");
         massLabel.setBounds(394, frame.getHeight() - 75, 90, 60);
         add(massLabel);
 
@@ -208,7 +208,7 @@ public class AnimationSurface extends JPanel {
     public void setAnimationSpeed(JLabel mark){
         JLabel animationLabel = new JLabel();
         animationLabel.setHorizontalAlignment(JLabel.CENTER);
-        animationLabel.setText("Tempo");
+        animationLabel.setText("Speed");
         animationLabel.setBounds(10, frame.getHeight() - 75, 90, 60);
         add(animationLabel);
 

@@ -27,7 +27,7 @@ class LoadingScreen extends JComponent {
 
         g.setFont(new Font("Impact", Font.TRUETYPE_FONT, 28));
         g.setColor(new Color(254, 24, 100));
-        g.drawString("Ein Projekt von Yannis und Henrik", 206, 80);
+        g.drawString("A project by Yannis and Henrik", 222, 80);
 
         for (int i = 0; i * imageWidth <= getWidth(); i++)
             for (int j = 0; j * imageHeight <= getHeight(); j++)
