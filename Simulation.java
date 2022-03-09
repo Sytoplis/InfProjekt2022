@@ -109,6 +109,12 @@ public class Simulation{
 
         this.threadCount = threadCount;
         threadOJs = simOJs.length / threadCount;
+
+        //TEST CALCULATION:
+        double testD = 23.5688d;
+        float testF = 23.5688f;
+        System.out.println(1/Math.sqrt(testD));
+        System.out.println(MathLib.FastInvSqrt(testD));
     }
 
     /*
@@ -193,6 +199,8 @@ public class Simulation{
                 threads[t].join(0);//make all threads end again
         }catch(Exception e){}
     }
+
+    //TODO: save positions in seperate array to not need to use multiple threads
 
 
 
