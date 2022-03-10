@@ -198,7 +198,7 @@ public class AnimationSurface extends JPanel {
         Hashtable massTable = new Hashtable();
         massTable.put(10, mark);
         massTable.put(0, new JLabel("0x"));
-        massTable.put(10, new JLabel("10x"));
+        massTable.put(100, new JLabel("10x"));
         Slider1.setLabelTable(massTable);
         Slider1.setPaintLabels(true);
         Slider1.setPaintTicks(true);
