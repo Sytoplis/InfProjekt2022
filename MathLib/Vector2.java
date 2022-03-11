@@ -45,7 +45,7 @@ public class Vector2
 
     public double len()
     {   
-        return Math.sqrt(x*x + y*y);
+        return 1.0f/MathLib.FastInvSqrt(x*x + y*y);
     }
     public double sqrLen(){
         return x*x + y*y;
@@ -53,7 +53,7 @@ public class Vector2
 
     public double dist(Vector2 b)
     {
-        return Math.sqrt((x-b.x)*(x-b.x) + (y-b.y)*(y-b.y));
+        return 1.0f/MathLib.FastInvSqrt((x-b.x)*(x-b.x) + (y-b.y)*(y-b.y));
     }
     public double sqrDist(Vector2 b)
     {
@@ -62,9 +62,9 @@ public class Vector2
 
     
     public Vector2 normalize(){
-        double l = len();
-        x /= l;
-        y /= l;
+        double invSqrt = MathLib.FastInvSqrt(x*x + y*y);
+        x *= invSqrt;
+        y *= invSqrt;
         return this;
     }
     /*
@@ -93,8 +93,8 @@ public class Vector2
     }
 
     public Vector2 clamp(double length){
-        if(sqrLen() > length*length)
-            normalize().mul(length);
+        //if(sqrLen() > length*length)
+        normalize().mul(length);
         return this;
     }
 

@@ -51,11 +51,11 @@ public class Simulation{
 
         public void applyStep(double dt){//update position based on velocity
             if(keepInBound)
-                keepWithinBounds(dt);
+                mirrorBounds();
             
 
-            getVel().clamp(-maxSpeed, maxSpeed);//fast square clamp
-            //getVel().clamp(maxSpeed);//slow circle clamp
+            //getVel().clamp(-maxSpeed, maxSpeed);//square clamp
+            getVel().clamp(maxSpeed);//circle clamp (using fastInvSqrt)
 
             getPos().x += getVel().x * dt;//new pos = old pos + vel * dt
             getPos().y += getVel().y * dt;//new pos = old pos + vel * dt
@@ -66,24 +66,23 @@ public class Simulation{
                 ModuloPosition();
         }
 
-        private void keepWithinBounds(double dt) {
+        private void smoothWithinBounds(double dt) {
             Vector2 v = getVel();
             
              if(getPos().x < margin) v.x += turnFactor * dt;
              if(getPos().x > size.x - margin)v.x -= turnFactor * dt;
              if(getPos().y < margin) v.y += turnFactor * dt;
              if(getPos().y > size.y - margin)v.y -= turnFactor * dt;
-             
-            /*
-            if (getPos().x < margin)
-                v.x *= -1;
-            if (getPos().x > size.x - margin)
-                v.x *= -1;
-            if (getPos().y < margin)
-                v.y *= -1;
-            if (getPos().y > size.y - margin)
-                v.y *= -1;*/
         } 
+
+        private void mirrorBounds(){//only works thogether with the screenclamp
+            Vector2 v = getVel();
+
+            if (getPos().x < 0)      v.x *= -1;
+            if (getPos().x > size.x) v.x *= -1;
+            if (getPos().y < 0)      v.y *= -1;
+            if (getPos().y > size.y) v.y *= -1;
+        }
 
         private void ModuloPosition(){
             getPos().add(size);

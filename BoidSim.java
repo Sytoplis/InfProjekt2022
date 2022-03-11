@@ -1,5 +1,4 @@
 import MathLib.Vector2;
-import MathLib.MathLib;
 
 public class BoidSim extends GridSim {
 
@@ -15,8 +14,8 @@ public class BoidSim extends GridSim {
     public class Boid extends SimOJ {
         public Boid(AnimationObject animOJ, int id) {
             super(animOJ, id, 5);// initSpeed 5
-            setPos(new Vector2(MathLib.rnd(margin, size.x - margin), MathLib.rnd(margin, size.y - margin)));
-            // update position to not spawn in the border
+
+            //setPos(new Vector2(MathLib.rnd(margin, size.x - margin), MathLib.rnd(margin, size.y - margin))); // update position to not spawn in the border
         }
 
         @Override
@@ -89,8 +88,7 @@ public class BoidSim extends GridSim {
          * }
          */
 
-        // ---------------------------------THE FAST AND COMPLICATED ALGORITHM (runs for
-        // all boids worst case: O(n²), avrg case: O(n))
+        // ---------------------------------THE FAST AND COMPLICATED ALGORITHM (runs for all boids worst case: O(n²), avrg case: O(n))
         private void CompForces(double dt) {
             double sqrDist = 0;// allocate memory for sqr distance for faster usage
             Vector2 pos = getPos();
