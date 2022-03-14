@@ -14,10 +14,10 @@ public class GravSim extends Simulation{
 
         @Override
         public void step(double dt) {
-           double tempmass = AnimationSurface.instance.Slider1.getValue();
-           mass = tempmass/ 10; 
-           double tempgravRad = AnimationSurface.instance.Slider2.getValue();
-           gravRad = tempgravRad/10;
+            double tempmass = AnimationSurface.instance.Slider1.getValue();
+            mass = tempmass/ 10; 
+            double tempgravRad = AnimationSurface.instance.Slider2.getValue();
+            gravRad = tempgravRad/10;
             CompGravity(dt);
             super.step(dt);
         }

@@ -47,16 +47,14 @@ public class Simulation{
         public void setVel(Vector2 vel) { animOJ.setVelocity(vel); }
 
         public void step(double dt){//step this boid one timestep forward
+            if(keepInBound)
+            mirrorBounds();
+        
+            //getVel().clamp(-maxSpeed, maxSpeed);//square clamp
+            getVel().clamp(maxSpeed);//circle clamp (using fastInvSqrt)
         }
 
         public void applyStep(double dt){//update position based on velocity
-            if(keepInBound)
-                mirrorBounds();
-            
-
-            //getVel().clamp(-maxSpeed, maxSpeed);//square clamp
-            getVel().clamp(maxSpeed);//circle clamp (using fastInvSqrt)
-
             getPos().x += getVel().x * dt;//new pos = old pos + vel * dt
             getPos().y += getVel().y * dt;//new pos = old pos + vel * dt
 
@@ -118,12 +116,18 @@ public class Simulation{
         for(int i = start; i < end; i++){
             simOJs[i].applyStep(dt);
         }
-        grid.UpdateGrud(simOjs);
     }
     */
     
+    //----------------DEBUG-----------------
+    protected Debug.Timer timer = new Debug.Timer(2);
+    protected Debug.Timer.AvrgTimes avrgTimes = new Debug.Timer.AvrgTimes(2);
+
+
     public void step(double dt){//dt in seconds
-        
+
+        timer.restartTimer();//DEBUG
+
         //CREATE THE THREADS
         Thread[] threads = new Thread[threadCount];
         int i = 0;
@@ -158,47 +162,23 @@ public class Simulation{
                 threads[t].join(0);//make all threads end again
         }catch(Exception e){}
 
-        
-        //CREATE THE SECOND THREADS (apply step)
-        i = 0;
-        for(int t = 0; t < threadCount; t++){
-            int end = i+threadOJs;
-            if(t == threadCount-1) end = simOJs.length;
+        timer.saveInterval();//DEBUG
 
-            threads[t] = new Thread(new Runnable() {
-                int start;
-                int end;
-
-                public Runnable setRange(int start, int end){ 
-                    this.start = start; 
-                    this.end = end;
-                    return this; 
-                }
-
-                @Override public void run() {//THE EXECUTION OF THESE THREADS
-                    for(int i = start; i < end; i++){
-                        simOJs[i].applyStep(dt);
-                    }
-                }
-
-            }.setRange(i, end));
-            threads[t].start();
-            i += threadOJs;
+        //APPLY STEP
+        for(i = 0; i < simOJs.length; i++){//because applyStep takes almost no calculation power and performs in O(1) it is not calculated threaded
+            simOJs[i].applyStep(dt);
         }
 
-        //END THE THREADS (again)
-        try{
-            for(int t = 0; t < threadCount; t++)
-                threads[t].join(0);//make all threads end again
-        }catch(Exception e){}
+        timer.saveInterval();//DEBUG
+        avrgTimes.AddResults(timer.getResults());//DEBUG
     }
-
-    //TODO: save positions in seperate array to not need to use multiple threads
 
 
 
     //----------------------- MOUSE -------------------------
-    public void onMouseClick(Vector2 pos){}
+    public void onMouseClick(Vector2 pos){
+        System.out.println(avrgTimes.getResults());//DEBUG
+    }
     public void onMousePressed(Vector2 pos){}
     public void onMouseReleased(Vector2 pos){}
 }

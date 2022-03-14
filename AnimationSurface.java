@@ -290,9 +290,9 @@ public class AnimationSurface extends JPanel {
         // simulation
         // mouselistener and keylistener are added
         if (frame.getTitle().contains("Boids"))
-            sim = new BoidSim(objects, frame.getWidth(), frame.getHeight(), 4);
+            sim = new BoidSim(objects, frame.getWidth(), frame.getHeight(), 8);
         if (frame.getTitle().contains("Gravitation"))
-            sim = new GravSim(objects, frame.getWidth(), frame.getHeight(), 4);
+            sim = new GravSim(objects, frame.getWidth(), frame.getHeight(), 8);
         mouse = new Mouse(sim);
         frame.addMouseListener(mouse);
 
