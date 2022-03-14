@@ -67,6 +67,15 @@ public class Vector2
         y *= invSqrt;
         return this;
     }
+
+    //TEST
+    public Vector2 slowNormalize(){
+        double invSqrt = 1.0/Math.sqrt(x*x + y*y);
+        x *= invSqrt;
+        y *= invSqrt;
+        return this;
+    }
+
     /*
     public Vector2 normalized(){
         double l = len();

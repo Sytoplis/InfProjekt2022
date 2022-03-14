@@ -120,8 +120,11 @@ public class Simulation{
     */
     
     //----------------DEBUG-----------------
-    protected Debug.Timer timer = new Debug.Timer(2);
-    protected Debug.Timer.AvrgTimes avrgTimes = new Debug.Timer.AvrgTimes(2);
+    protected Debug.Timer timer = new Debug.Timer(4);
+    protected Debug.Timer.AvrgTimes avrgTimes = new Debug.Timer.AvrgTimes(4);
+
+
+    //NOTE: sample computer results: no threads, 50000 boids -> 142 ms;     8 threads, 50000 boids -> 55 ms
 
 
     public void step(double dt){//dt in seconds
@@ -168,7 +171,7 @@ public class Simulation{
         for(i = 0; i < simOJs.length; i++){//because applyStep takes almost no calculation power and performs in O(1) it is not calculated threaded
             simOJs[i].applyStep(dt);
         }
-
+        
         timer.saveInterval();//DEBUG
         avrgTimes.AddResults(timer.getResults());//DEBUG
     }
