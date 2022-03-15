@@ -190,7 +190,8 @@ public class AnimationSurface extends JPanel {
         massLabel.setText("Mass");
         massLabel.setBounds(394, frame.getHeight() - 75, 90, 60);
         add(massLabel);
-
+        
+        //Slider for the mass
         Slider1 = new JSlider(JSlider.HORIZONTAL, 0, 100, 10);
         Slider1.setMajorTickSpacing(10);
         Slider1.setMinorTickSpacing(2);
@@ -211,6 +212,7 @@ public class AnimationSurface extends JPanel {
         radiusLabel.setBounds(778, frame.getHeight() - 75, 90, 60);
         add(radiusLabel);
 
+        //Slider for the radius of gravitation 
         Slider2 = new JSlider(JSlider.HORIZONTAL, 0, 8000, 800);
         Slider2.setMajorTickSpacing(800);
         Slider2.setMinorTickSpacing(160);
@@ -325,7 +327,7 @@ public class AnimationSurface extends JPanel {
             if (!paused) {
                 // Uses the value of the JSlider to determine the delta time
                 if (animationspeed.getValue() > 0)
-                    deltaTime = 60 / animationspeed.getValue();
+                    deltaTime = 80 / animationspeed.getValue();
                 else // Since dividing by zero would give an error
                     deltaTime = 800;
                 // Repaints the frame and its objects (updates paint)

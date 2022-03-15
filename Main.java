@@ -227,7 +227,7 @@ public class Main {
     }
 
 
-    //This method is used to automatically update the hastable displaying the new values, when the rangee has been redefined
+    //This method is used to automatically update the hastable displaying the new values, when the range has been redefined
     public static Hashtable creatHashtable(JSlider slider) {
 
         Hashtable labelTable = new Hashtable();
